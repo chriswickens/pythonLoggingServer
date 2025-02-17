@@ -1,10 +1,13 @@
 import socket
 import threading
-import validLogLevels
+from validLogLevels import VALID_LOGS
 
 # Server Configuration
 host = '127.0.0.1'
 port = 1233
+
+# client ID tracking
+current_id_number = 0
 
 # Create Server Socket
 ServerSocket = socket.socket()
@@ -39,6 +42,7 @@ def is_rate_limited(ip):
 
     # check if the IP is NOT in the log
     if ip not in request_log:
+        # Add the IP address to the request_log (deque() is NOT what you thought...)
         request_log[ip] = deque()
 
     # Remove old timestamps outside the rate limit window
