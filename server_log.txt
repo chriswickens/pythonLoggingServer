@@ -1,5 +1,24 @@
-New connection from 127.0.0.1:51685
-{"type": "ERROR", "request_type": "hi", "time_stamp": "17/02/2025 14:26:53", "client_id": [1], "ip_address": "127.0.0.1", "port": 51685, "message": "data from C# program"}
-{"time_stamp": "17/02/2025 14:27:01", "request_type": "TRACE", "client_id": [1]}
-Error with 127.0.0.1:51685 - [WinError 10054] An existing connection was forcibly closed by the remote host
-Connection closed: 127.0.0.1:51685
+New connection from 127.0.0.1:51778
+{"time_stamp": "17/02/2025 14:50:47", "request_type": "TRACE", "client_id": 1, "client_name": "WickensClient", "ip_address": "127.0.0.1", "port": 51778, "message": "data from C# program"}
+Error with 127.0.0.1:51778 - unsupported operand type(s) for +: 'NoneType' and 'str'
+Connection closed: 127.0.0.1:51778
+New connection from 127.0.0.1:51782
+Error with 127.0.0.1:51782 - unsupported operand type(s) for +: 'NoneType' and 'str'
+Connection closed: 127.0.0.1:51782
+New connection from 127.0.0.1:51786
+Error with 127.0.0.1:51786 - unsupported operand type(s) for +: 'NoneType' and 'str'
+Connection closed: 127.0.0.1:51786
+New connection from 127.0.0.1:51787
+{"time_stamp": "17/02/2025 14:54:21", "request_type": "TRACE", "client_id": 1, "client_name": "WickensClient", "ip_address": "127.0.0.1", "port": 51787, "message": "data from C# program"}
+Error with 127.0.0.1:51787 - unsupported operand type(s) for +: 'NoneType' and 'str'
+Connection closed: 127.0.0.1:51787
+New connection from 127.0.0.1:51802
+Error with 127.0.0.1:51802 - unsupported operand type(s) for +: 'NoneType' and 'str'
+Connection closed: 127.0.0.1:51802
+New connection from 127.0.0.1:51806
+{"time_stamp": "17/02/2025 14:56:13", "request_type": "TRACE", "client_id": 1, "client_name": "WickensClient", "ip_address": "127.0.0.1", "port": 51806, "message": "data from C# program"}
+{"time_stamp": "17/02/2025 14:56:17", "request_type": "FART", "client_id": 1, "client_name": "WickensClient", "ip_address": "127.0.0.1", "port": 51806, "message": "data from C# program"}
+New connection from 127.0.0.1:51809
+{"time_stamp": "17/02/2025 14:57:41", "request_type": "UNKNOWN TYPE", "client_id": 1, "client_name": "WickensClient", "ip_address": "127.0.0.1", "port": 51809, "message": "data from C# program"}
+Error with 127.0.0.1:51809 - [WinError 10054] An existing connection was forcibly closed by the remote host
+Connection closed: 127.0.0.1:51809

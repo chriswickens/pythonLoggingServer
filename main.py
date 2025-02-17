@@ -26,6 +26,7 @@ def setup_server():
     max_clients = int(config_data['max_clients'])
 
     server_socket = socket.socket()
+
     try:
         server_socket.bind((server_ip, server_port))
     except socket.error as e:
@@ -101,7 +102,7 @@ def client_connected(connection, client_address):
             # create a message and log the message
             # message = f"{client_ip}:{client_port} - {data.decode('utf-8')}"
             message = logGenerator.generate_log_message(client_ip, client_port, data.decode('utf-8'))
-            print(f"Client Message: {message}")
+            # print(f"Client Message: {message}")
             log_message(message)
 
             # The server doesnt need to reply
