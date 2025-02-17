@@ -57,6 +57,8 @@ def generate_log_message(client_ip_address, client_port, received_client_message
 
 
 # Assign client IDs correctly
+# When a client connects, you need to assign it an ID
+# the ID will be used when printing logging information
 client_id_list["192.168.0.1"] = assign_client_id("192.168.0.1")
 client_id_list["192.168.0.55"] = assign_client_id("192.168.0.55")
 

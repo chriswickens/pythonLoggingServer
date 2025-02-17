@@ -2,23 +2,21 @@ import socket
 import threading
 from validLogLevels import VALID_LOGS
 
-# Server Configuration
-host = '127.0.0.1'
-port = 1233
+# Function to set up server code
+# This will need to use the config file to follow instructions
+def setup_server():
+    host = '127.0.0.1'
+    port = 1233
+    server_socket = socket.socket()
+    try:
+        server_socket.bind((host, port))
+    except socket.error as e:
+        print(f"Socket binding error: {e}")
+        exit(1)
 
-# client ID tracking
-current_id_number = 0
-
-# Create Server Socket
-ServerSocket = socket.socket()
-try:
-    ServerSocket.bind((host, port))
-except socket.error as e:
-    print(f"Socket binding error: {e}")
-    exit(1)
-
-print('Waiting for a Connection...')
-ServerSocket.listen(5)
+    print('Waiting for a Connection...')
+    server_socket.listen(5)
+    return server_socket
 
 # Mutex for safe logging
 log_lock = threading.Lock()
@@ -27,7 +25,7 @@ from collections import deque
 import time
 import threading
 
-# Dictionary to track message timestamps per IP
+# Dictionary to track message timestamps by IP
 rate_limit = {}
 lock = threading.Lock()
 
@@ -112,15 +110,17 @@ def threaded_client(connection, client_address):
     log_message(f"Connection closed: {client_ip_address}:{client_port}")
 
 
-# main loop
-while True:
-    # accept the client connection
-    client, address = ServerSocket.accept()
-    print(f'A client connected: {address[0]}:{address[1]}')
-    log_message(f'New connection from {address[0]}:{address[1]}')
+if __name__ == "__main__":
+    # main loop
+        ServerSocket = setup_server()
+        while True:
+            # accept the client connection
+            client, address = ServerSocket.accept()
+            print(f'A client connected: {address[0]}:{address[1]}')
+            log_message(f'New connection from {address[0]}:{address[1]}')
 
-    # Run the threaded_client function using threading (multi client support)
-    threading.Thread(target=threaded_client, args=(client, address), daemon=True).start()
+            # Run the threaded_client function using threading (multi client support)
+            threading.Thread(target=threaded_client, args=(client, address), daemon=True).start()
 
-ServerSocket.close()
-exit(0)
+        ServerSocket.close()
+        exit(0)
