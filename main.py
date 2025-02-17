@@ -4,6 +4,7 @@ import time
 from collections import deque
 import serverConfigParser
 from validLogLevels import VALID_LOGS
+import logGenerator
 
 # Mutex for safe logging
 log_writer_mutex = threading.Lock()
@@ -98,9 +99,10 @@ def client_connected(connection, client_address):
 
             # If the client is not in the rate limiting list
             # create a message and log the message
-            message = f"{client_ip}:{client_port} - {data.decode('utf-8')}"
+            # message = f"{client_ip}:{client_port} - {data.decode('utf-8')}"
+            message = logGenerator.generate_log_message(client_ip, client_port, data.decode('utf-8'))
             print(f"Client Message: {message}")
-            log_message(message)
+            # log_message(message)
 
             # The server doesnt need to reply
             # reply = f'Server Says: {data.decode('utf-8')}'
