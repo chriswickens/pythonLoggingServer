@@ -1,4 +1,5 @@
-127.0.0.1:50343 - WickensClient|WEEEE
-New connection from 127.0.0.1:50371
-127.0.0.1:50371 - WickensClient|hehe
-127.0.0.1:50371 - WickensClient|lala
+New connection from 127.0.0.1:51239
+127.0.0.1:51239 - Connect|WickensClient
+127.0.0.1:51239 - hehehehe|WickensClient
+Error with 127.0.0.1:51239 - [WinError 10054] An existing connection was forcibly closed by the remote host
+Connection closed: 127.0.0.1:51239

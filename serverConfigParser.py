@@ -11,11 +11,13 @@ def read_config():
     # Access values from the configuration file
     server_ip = config.get('ServerSettings', 'ipAddress')
     server_port = config.get('ServerSettings', 'port')
+    max_clients = config.get('ServerSettings', 'max_clients')
 
     # Return a dictionary with the retrieved values
     config_values = {
         'server_ip': server_ip,
         'server_port': server_port,
+        'max_clients': max_clients
     }
 
     return config_values
