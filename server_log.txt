@@ -1,4 +1,5 @@
-New connection from 127.0.0.1:51657
-New connection from 127.0.0.1:51661
-Error with 127.0.0.1:51661 - [WinError 10054] An existing connection was forcibly closed by the remote host
-Connection closed: 127.0.0.1:51661
+New connection from 127.0.0.1:51685
+{"type": "ERROR", "request_type": "hi", "time_stamp": "17/02/2025 14:26:53", "client_id": [1], "ip_address": "127.0.0.1", "port": 51685, "message": "data from C# program"}
+{"time_stamp": "17/02/2025 14:27:01", "request_type": "TRACE", "client_id": [1]}
+Error with 127.0.0.1:51685 - [WinError 10054] An existing connection was forcibly closed by the remote host
+Connection closed: 127.0.0.1:51685
