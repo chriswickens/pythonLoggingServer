@@ -100,23 +100,20 @@ def client_connected(connection, client_address):
 
             # If the client is not in the rate limiting list
             # create a message and log the message
-            # message = f"{client_ip}:{client_port} - {data.decode('utf-8')}"
             message = logGenerator.generate_log_message(client_ip, client_port, data.decode('utf-8'))
-            # print(f"Client Message: {message}")
             log_message(message)
-
-            # The server doesnt need to reply
-            # reply = f'Server Says: {data.decode('utf-8')}'
-            # connection.sendall(reply.encode())
 
         except Exception as e:
             # Produce an ERROR regarding the connection of the client
-            log_message(f"Error with {client_ip}:{client_port} - {e}")
+            message = logGenerator.generate_log_message(client_ip, client_port, f"FATAL|logger|FATAL ERROR : {client_ip}:{client_port} - {e}")
+            log_message(message)
             break
 
     connection.close()
-    # Log when the client has disconnected (info?)
-    log_message(f"Connection closed: {client_ip}:{client_port}")
+    # Log when the client has disconnected
+    message = logGenerator.generate_log_message(client_ip, client_port, f"INFO|logger|Client Disconnected: {client_ip}:{client_port}")
+    print(f'A client DISCONNECTED: {address[0]}:{address[1]}')
+    log_message(message)
 
 
 if __name__ == "__main__":
@@ -126,11 +123,6 @@ if __name__ == "__main__":
     while True:
         client, address = requested_server_socket.accept()
         print(f'A client connected: {address[0]}:{address[1]}')
-        log_message(f'New connection from {address[0]}:{address[1]}')
 
         # Start a thread for the new client
         threading.Thread(target=client_connected, args=(client, address), daemon=True).start()
-
-    # Unreachable due to infinite loop
-    # server_socket.close()
-    # exit(0)

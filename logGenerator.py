@@ -27,12 +27,6 @@ def generate_log_message(client_ip_address, client_port, received_client_message
     message_client_name = 1
     message_data = 2
 
-    print(f'LOG GENERATOR: IP: {client_ip_address} - Port: {client_port} - Message: {received_client_message}')
-
-    # Get the client ID, if not found return None
-    # client_id = client_id_dictionary.get(client_ip_address, None)
-
-    print(f"Client ID: {client_id}")
 
     # if None was returned, log an error instead!
     if client_id is None:
@@ -40,78 +34,63 @@ def generate_log_message(client_ip_address, client_port, received_client_message
         return "Error: Client ID not found!"
 
     # probably an ELSE for the if statement above, so if the ID is not found, it writes an error about that
-    split_message = received_client_message.split("|")
+    # split_message = received_client_message.split("|") # used because you love networking messages...RIGHT.
     current_time = datetime.now()
 
-    if len(split_message) < 3:
-        return json.dumps({
-            "type": "ERROR",
-            # "request_type": "INVALID",
-            # "time_stamp": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            # "client_id": client_id,
-            # "ip_address": client_ip_address,
-            # "port": client_port,
-            "message": "Invalid log format"
-        })
-    print("Got before the split message case...\n")
-    # Check if the requested log message type exists in VALID_LOGS
-    # if split_message[message_identifier] in VALID_LOGS:
+    # get the value from the message for the log type requested
+    # log_type = split_message[message_identifier] # This is the split you were using before, dont bother now....
+    # print(f"Log Type: {log_type}")
 
-        # print("Create JSON object with data...\n")
 
-        # From validLogLevels.py
-        # VALID_LOGS = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
+    # THIS CODE WAS FOR WHEN THERE WAS A CLIENT NAME AND DATA...ASK ED!!
+    """ASK ED ABOUT THIS CODE, do we need to care about this? Probably not....as per usual, Melissa is prolly correct....."""
+    # received_client_name = "UnknownClientName"
+    # received_client_data = "NoDataReceived"
+
+    # match len(split_message):
+    #     case 2:
+    #         received_client_name = split_message[message_client_name]
+    #     case 3 | _:
+    #         received_client_name = split_message[message_client_name]
+    #         received_client_data = split_message[message_data]
 
     message_object = {"time_stamp": current_time.strftime("%d/%m/%Y %H:%M:%S")}  # Create the blank message object to start
 
-    match split_message[message_identifier]:
+    match received_client_message:
         case "TRACE":
             print("Trace Message...\n")
-            message_object["request_type"] = split_message[message_identifier]
+            message_object["log_level"] = received_client_message
         case "DEBUG":
             print("Debug Message...\n")
-            message_object["request_type"] = split_message[message_identifier]
+            message_object["log_level"] = received_client_message
         case "INFO":
             print("Info Message...\n")
-            message_object["request_type"] = split_message[message_identifier]
+            message_object["log_level"] = received_client_message
         case "WARN":
             # Ex: Something happened, but the program can recover (file not found for example)
             print("Warn Message...\n")
-            message_object["request_type"] = split_message[message_identifier]
+            message_object["log_level"] = received_client_message
         case "FATAL":
             print("Fatal Message...\n")
-            message_object["request_type"] = split_message[message_identifier]
+            message_object["log_level"] = received_client_message
         case "ERROR":
             print("Error Message...\n")
-            message_object["request_type"] = split_message[message_identifier]
+            message_object["log_level"] = received_client_message
         case _:
-            print(f"UNDERSCORE - Error Message...{split_message[message_identifier]}\n")
-            message_object["request_type"] = "UNKNOWN TYPE"
+            print(f"UNDERSCORE - Error Message...{received_client_message}\n")
+            message_object["requested_type"] = received_client_message
+            message_object["log_level"] = "UNKNOWN"
 
     # print(f"Message Object: {message_object}")
 
     # Form the rest of the message after the request_type has been added
     message_object.update({
         "client_id": client_id,
-        "client_name": split_message[message_client_name],
+        # "client_name": received_client_name,
         "ip_address": client_ip_address,
         "port": client_port,
-        "message": split_message[message_data]
+        # "message": received_client_data
     })
-
-# # If the requested log message type does NOT exist, return an error logging the details requested
-# # by the client
-# else:
-#     message_object = {
-#         "type": "ERROR",
-#         "request_type": split_message[message_identifier],
-#         "time_stamp": current_time.strftime("%d/%m/%Y %H:%M:%S"),
-#         "client_id": client_id,
-#         "client_name": split_message[message_client_name],
-#         "ip_address": client_ip_address,
-#         "port": client_port,
-#         "message": split_message[message_data]
-#     }
 
 # Return the constructed json string to print
     return json.dumps(message_object)
