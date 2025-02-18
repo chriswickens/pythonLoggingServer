@@ -1,3 +1,26 @@
-{"time_stamp": "17/02/2025 15:33:29", "log_level": "TRACE", "client_id": 1, "ip_address": "127.0.0.1", "port": 51958}
-{"time_stamp": "17/02/2025 15:33:38", "log_level": "DEBUG", "client_id": 1, "ip_address": "127.0.0.1", "port": 51958}
-{"time_stamp": "17/02/2025 15:33:43", "requested_type": "FART", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 51958}
+{"time_stamp": "17/02/2025 16:02:48", "requested_type": "HELLO!", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52197}
+{"time_stamp": "17/02/2025 16:02:49", "requested_type": "HELLO!", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52197}
+{"time_stamp": "17/02/2025 16:02:58", "requested_type": "HELLO!", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52197}
+{"time_stamp": "17/02/2025 16:02:58", "requested_type": "HELLO!", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52197}
+{"time_stamp": "17/02/2025 16:03:18", "requested_type": "HELLO!", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52199}
+{"time_stamp": "17/02/2025 16:03:18", "requested_type": "HELLO!", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52199}
+{"time_stamp": "17/02/2025 16:03:18", "requested_type": "ERROR|logger|Client Rate Limited: 127.0.0.1:52199", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "127.0.0.1", "port": 52199}
+{"time_stamp": "17/02/2025 16:03:51", "log_level": "INFO", "client_id": 1, "ip_address": "127.0.0.1", "port": 52199}
+{"time_stamp": "17/02/2025 16:14:12", "log_level": "WARN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:14:21", "log_level": "WARN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:14:41", "requested_type": "HELLO", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:00", "log_level": "TRACE", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:07", "requested_type": "fdsaf", "log_level": "UNKNOWN", "client_id": 2, "ip_address": "10.250.126.114", "port": 49923}
+{"time_stamp": "17/02/2025 16:15:10", "log_level": "TRACE", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:11", "log_level": "TRACE", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:11", "log_level": "WARN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:12", "log_level": "DEBUG", "client_id": 2, "ip_address": "10.250.126.114", "port": 49923}
+{"time_stamp": "17/02/2025 16:15:31", "log_level": "TRACE", "client_id": 2, "ip_address": "10.250.126.114", "port": 49923}
+{"time_stamp": "17/02/2025 16:15:31", "log_level": "TRACE", "client_id": 2, "ip_address": "10.250.126.114", "port": 49923}
+{"time_stamp": "17/02/2025 16:15:31", "log_level": "WARN", "client_id": 2, "ip_address": "10.250.126.114", "port": 49923}
+{"time_stamp": "17/02/2025 16:15:31", "log_level": "INFO", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:48", "requested_type": "NOBUENO", "log_level": "UNKNOWN", "client_id": 2, "ip_address": "10.250.126.114", "port": 49923}
+{"time_stamp": "17/02/2025 16:15:54", "requested_type": "NOBUENO", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:15:55", "requested_type": "NOBUENO", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:16:32", "log_level": "WARN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}
+{"time_stamp": "17/02/2025 16:16:36", "requested_type": "INFO|logger|Client Disconnected: 10.250.126.12:51190", "log_level": "UNKNOWN", "client_id": 1, "ip_address": "10.250.126.12", "port": 51190}

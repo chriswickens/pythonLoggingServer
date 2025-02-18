@@ -92,7 +92,9 @@ def client_connected(connection, client_address):
             # Check to see if the client has been spamming the logger
             if check_for_rate_limiting(client_ip):
                 if not stop_log_rate_limited:
-                    log_message(f"Rate limited: {client_ip}:{client_port}")
+                    # log_message(f"Rate limited: {client_ip}:{client_port}")
+                    message = logGenerator.generate_log_message(client_ip, client_port, f"WARN")
+                    log_message(message)
                     stop_log_rate_limited = True
                 continue
             else:
