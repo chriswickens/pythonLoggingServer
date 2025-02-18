@@ -9,7 +9,7 @@ def read_config():
     config.read('config.ini')
 
     # Access values from the configuration file
-    server_ip = config.get('ServerSettings', 'ipAddress')
+    server_ip = config.get('ServerSettings', 'ip_address')
     server_port = config.get('ServerSettings', 'port')
     max_clients = config.get('ServerSettings', 'max_clients')
 
