@@ -77,9 +77,10 @@ def generate_log_message(client_ip_address, client_port, received_client_message
             print("Error Message...\n")
             message_object["log_level"] = received_client_message
         case _:
-            print(f"UNDERSCORE - Error Message...{received_client_message}\n")
+            print(f"DEFAULT CASE generate_log_message() - Error Message...{received_client_message}\n")
+            message_object["log_level"] = "ERROR"
             message_object["requested_type"] = received_client_message
-            message_object["log_level"] = "UNKNOWN"
+
 
     # print(f"Message Object: {message_object}")
 
