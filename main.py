@@ -14,11 +14,12 @@ rate_limiting_dict_mutex = threading.Lock()
 
 # Dictionary to track message timestamps by IP
 request_log = {}
+
 # Rate limiting options
 rate_limit_window = 5  # seconds
 max_requests = 2  # Allow 2 messages per window
 
-def setup_server():
+def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
     config_data = serverConfigParser.read_config()
     server_ip = config_data['server_ip']
@@ -39,14 +40,14 @@ def setup_server():
     return server_socket
 
 
-def log_message(message):
+def log_message(message) -> None:
     """Logs messages to a file using a mutex to prevent race conditions"""
     with log_writer_mutex:  # Grab the mutex
         with open("server_log.txt", "a") as log_file:
             log_file.write(message + "\n")
 
 
-def check_for_rate_limiting(ip):
+def check_for_rate_limiting(ip) -> bool:
     """Check if the IP address has been rate limited."""
     current_time = time.time()
 
@@ -71,13 +72,15 @@ def check_for_rate_limiting(ip):
     return False
 
 
-def client_connected(connection, client_address):
+def client_connected(connection, client_address) -> None:
     """A thread that handles clients and their logging"""
     client_ip, client_port = client_address
 
     # Bool to ensure limited logging when a client is rate limited
     stop_log_rate_limited = False
 
+    message = logGenerator.generate_log_message("INFO", client_ip, client_port, "Client connected to server")
+    log_message(message)
     # Not needed, this is a logger
     # connection.send(b'Welcome to the Server\n')
 
@@ -93,7 +96,7 @@ def client_connected(connection, client_address):
             if check_for_rate_limiting(client_ip):
                 if not stop_log_rate_limited:
                     # log_message(f"Rate limited: {client_ip}:{client_port}")
-                    message = logGenerator.generate_log_message(client_ip, client_port, f"WARN")
+                    message = logGenerator.generate_log_message("WARN", client_ip, client_port, "Client is RATE LIMITED")
                     log_message(message)
                     stop_log_rate_limited = True
                 continue
@@ -102,18 +105,18 @@ def client_connected(connection, client_address):
 
             # If the client is not in the rate limiting list
             # create a message and log the message
-            message = logGenerator.generate_log_message(client_ip, client_port, data.decode('utf-8'))
+            message = logGenerator.generate_log_message(data.decode('utf-8'), client_ip, client_port)
             log_message(message)
 
         except Exception as e:
             # Produce an ERROR regarding the connection of the client
-            message = logGenerator.generate_log_message(client_ip, client_port, f"FATAL|logger|FATAL ERROR : {client_ip}:{client_port} - {e}")
+            message = logGenerator.generate_log_message("FATAL", client_ip, client_port, f"Crtitical socket error - {e}")
             log_message(message)
             break
 
     connection.close()
     # Log when the client has disconnected
-    message = logGenerator.generate_log_message(client_ip, client_port, f"INFO|logger|Client Disconnected: {client_ip}:{client_port}")
+    message = logGenerator.generate_log_message("INFO", client_ip, client_port, f"Client Disconnected from server")
     print(f'A client DISCONNECTED: {address[0]}:{address[1]}')
     log_message(message)
 

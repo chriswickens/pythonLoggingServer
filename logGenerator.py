@@ -7,7 +7,6 @@ from datetime import datetime
 client_id_number = 0  # Increments based on number of clients who have connected
 client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
 
-
 # function to assign an IP address a client ID
 def assign_client_id(ip_to_check):
     global client_id_number
@@ -18,7 +17,7 @@ def assign_client_id(ip_to_check):
     return client_id_dictionary[ip_to_check]  # Always return the assigned ID
 
 
-def generate_log_message(client_ip_address, client_port, received_client_message):
+def generate_log_message(log_type, client_ip_address, client_port, requested_log_message = "None"):
 
     # Get the client ID generated
     client_id = assign_client_id(client_ip_address)
@@ -56,30 +55,76 @@ def generate_log_message(client_ip_address, client_port, received_client_message
 
     message_object = {"time_stamp": current_time.strftime("%d/%m/%Y %H:%M:%S")}  # Create the blank message object to start
 
-    match received_client_message:
-        case "TRACE":
-            print("Trace Message...\n")
-            message_object["log_level"] = received_client_message
-        case "DEBUG":
-            print("Debug Message...\n")
-            message_object["log_level"] = received_client_message
-        case "INFO":
-            print("Info Message...\n")
-            message_object["log_level"] = received_client_message
-        case "WARN":
-            # Ex: Something happened, but the program can recover (file not found for example)
-            print("Warn Message...\n")
-            message_object["log_level"] = received_client_message
-        case "FATAL":
-            print("Fatal Message...\n")
-            message_object["log_level"] = received_client_message
-        case "ERROR":
-            print("Error Message...\n")
-            message_object["log_level"] = received_client_message
+    # match received_client_message:
+    #     case "TRACE":
+    #         print("Trace Message...\n")
+    #         message_object["log_level"] = received_client_message
+    #     case "DEBUG":
+    #         print("Debug Message...\n")
+    #         message_object["log_level"] = received_client_message
+    #     case "INFO":
+    #         print("Info Message...\n")
+    #         message_object["log_level"] = received_client_message
+    #     case "WARN":
+    #         # Ex: Something happened, but the program can recover (file not found for example)
+    #         print("Warn Message...\n")
+    #         message_object["log_level"] = received_client_message
+    #     case "FATAL":
+    #         print("Fatal Message...\n")
+    #         message_object["log_level"] = received_client_message
+    #     case "ERROR":
+    #         print("Error Message...\n")
+    #         message_object["log_level"] = received_client_message
+    #     case _:
+    #         print(f"DEFAULT CASE generate_log_message() - Error Message...{received_client_message}\n")
+    #         message_object["log_level"] = "ERROR"
+    #         message_object["requested_type"] = received_client_message
+
+
+    """
+    Brainstorming: If we need to make sure the log format is configurable, we should assign values
+    Then you can check to see if the requested log type is valid and act accordingly
+    example (probably not a great idea)
+    Have the matcvh/case rely on a bool, if something invalid is sent, the FALSE bool is used to generate the log message
+    that also includes the ERROR data rather than being a properly formed message with no error data?
+    Something to consider....
+
+    How to do this (basic level)
+
+    Use a dictionary to associate the VALUES with their KEY
+    Ex: client_ip <- variable is associated with the STRING "client_id" <- used to match with the values in the config later!
+
+    So you need a dictionary of all available types of data for the log and their associated variable
+    log_message_definitions = {
+    "time_stamp": current_time.strftime("%d/%m/%Y %H:%M:%S") <- THE FORMAT FOR THIS CAN BE IN THE CONFIG TOO!!!
+    "log_level": log_level
+    "client_ip": client_ip
+    "client_port": client_port
+    "request_log_message": request_log_message
+    "requested_type": requested_type
+    }
+
+    Now that you would have all of these stored somewhere as key/value pairs, you can check the config section
+    to see if the string keys match anything in the config file
+    Need to research: How to iterate over the values in the config file data:
+    Grab the data from the config (already know how!)
+    Split the parts into their own pieces in a LIST (.split I think?...)
+    Call the list something like...format_config_list ?
+    To generate a LIST that will only contain the strings of the above keys to compare them with when printing
+    find a way to iterate over the KEYS in format_config_list and see if they are in log_message_definitions
+    If they are, add them to the object being constructed.
+
+    I think this will work? That's for Friday me to look into.
+    """
+    match log_type:
+        case log_level if log_level in VALID_LOGS:
+            message_object["log_level"] = log_level
         case _:
-            print(f"DEFAULT CASE generate_log_message() - Error Message...{received_client_message}\n")
+            print(f"DEFAULT CASE generate_log_message() - Error Message...{log_type}\n")
             message_object["log_level"] = "ERROR"
-            message_object["requested_type"] = received_client_message
+            message_object["requested_type"] = log_type
+            requested_log_message = "Invalid log type requested"
+
 
 
     # print(f"Message Object: {message_object}")
@@ -90,6 +135,7 @@ def generate_log_message(client_ip_address, client_port, received_client_message
         # "client_name": received_client_name,
         "ip_address": client_ip_address,
         "port": client_port,
+        "log_message": requested_log_message
         # "message": received_client_data
     })
 
