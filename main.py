@@ -1,3 +1,5 @@
+import configparser
+import json
 import socket
 import threading
 import time
@@ -39,15 +41,56 @@ def setup_server() -> socket.socket:
     server_socket.listen(max_clients)
     return server_socket
 
+def check_ignored_log_types(message):
+    # Create the object
+    config = configparser.ConfigParser()
+    config_file_name = "config.ini"
+
+    # Read the config.ini file
+    config.read(config_file_name)
+
+    # Storage for logs to be ignored
+    ignored_logs = []
+
+    if config.has_section("LogsToIgnore"):
+        if not config.has_option("LogsToIgnore", "IGNORE_LOGS"):
+            print("Server Error: No IGNORE_LOGS option in config.ini - ALL LOG TYPES WILL BE RECORDED!")
+            return False
+        else:
+            # Get the value and split it correctly
+            ignored_logs = [log.strip() for log in config.get("LogsToIgnore", "IGNORE_LOGS").split(", ")]
+            print("IGNORE_LOGS gotten:", ignored_logs)
+    else:
+        print("Server Error: No LogsToIgnore SECTION in config.ini - ALL LOG TYPES WILL BE RECORDED!")
+        return False
+    
+    print("check_ignored_log_types(): It got here, the list exists! Use it!")
+
+    # Load the message as a JSON object
+    message_object = json.loads(message)
+    log_type = message_object.get("log_type", "")
+    
+    print(f"CHECK IGNORE DEBUG: log_type='{log_type}', ignored_logs={ignored_logs}")
+
+    # Check if log_type should be ignored
+    if log_type in ignored_logs:
+        print("IGNORE THE LOG!")
+        return True
+    else:
+        print("PRINT THE LOG!!")
+        return False
 
 def log_message(message) -> None:
     """Logs messages to a file using a mutex to prevent race conditions"""
     print("MESSAGE IN LOG_MESSAGE: ", message)
     """ THIS IS WHERE YOU NEED TO CHECK IF THE MESSAGE WILL EVEN BE LOGGED! """
-    with log_writer_mutex:  # Grab the mutex
-        with open("server_log.txt", "a") as log_file:
-            log_file.write(message + "\n")
-
+    print_message = check_ignored_log_types(message)
+    if not print_message:
+        with log_writer_mutex:  # Grab the mutex
+            with open("server_log.txt", "a") as log_file:
+                log_file.write(message + "\n")
+    else:
+        print("Message not printed, due to ignoring it!")
 
 def check_for_rate_limiting(ip) -> bool:
     """Check if the IP address has been rate limited."""

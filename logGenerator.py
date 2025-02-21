@@ -4,6 +4,12 @@ import json
 from validLogLevels import VALID_LOGS
 from datetime import datetime
 
+"""
+TODO:
+Add a config option for the time_stamp formatting
+
+"""
+
 # Client list globals
 client_id_number = 0  # Increments based on number of clients who have connected
 client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
@@ -98,9 +104,13 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     # Is it a valid log type?
     if not valid_log_config_missing:
         print("Formatting exists in config...")
+
+        # If the log_type is not in the valid_log_list from the config
+        # generate a requested_log_message saying so
         if log_type not in valid_log_list:
             field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"
             field_variables["log_type"] = "ERROR"
+
         # If a field order exists, construct the log in a specific way
         if field_order:
             for field in field_order:
@@ -110,7 +120,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
                 else:
                     print(f"Warning: Field '{field}' in FIELD_ORDER is not found in field_variables.")
         
-        # Otherwise, construct a default log style
+        # Otherwise, construct a default log style (all fields are printed!)
         else:
             print("Constructing default log message...")
             message_object.update(field_variables)
