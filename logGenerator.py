@@ -17,7 +17,7 @@ def assign_client_id(ip_to_check):
     return client_id_dictionary[ip_to_check]  # Always return the assigned ID
 
 
-def generate_log_message(log_type, client_ip_address, client_port, requested_log_message = "None"):
+def generate_log_message(log_type, client_ip_address, client_port, requested_log_message = "None") -> str:
 
     # Get the client ID generated
     client_id = assign_client_id(client_ip_address)

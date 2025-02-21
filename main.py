@@ -103,6 +103,17 @@ def client_connected(connection, client_address) -> None:
             else:
                 stop_log_rate_limited = False
 
+
+            """
+            YOU NEED TO CHECK IF THE LOG EVEN HAS TO BE PRINTED HERE FIRST
+            BREAK OUT THE CHECK INTO A FUNCTION FROM THE TEST BED
+            """
+            # Check if the log is to be ignored
+            # if log_is_ignored:
+
+            # else: generate the log message
+
+
             # If the client is not in the rate limiting list
             # create a message and log the message
             message = logGenerator.generate_log_message(data.decode('utf-8'), client_ip, client_port)
