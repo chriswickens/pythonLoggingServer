@@ -7,6 +7,13 @@ from datetime import datetime
 client_id_number = 0  # Increments based on number of clients who have connected
 client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
 
+
+"""
+THIS NEEDS TO BE PUT IN THE MAIN SERVER CODE SO WHEN A CLIENT CONNECTED IT GENERATES THEIR ID
+then the ID will need to be passed with their IP and port number into the logging function
+to use if necessary...
+Will require another mutex!
+"""
 # function to assign an IP address a client ID
 def assign_client_id(ip_to_check):
     global client_id_number
