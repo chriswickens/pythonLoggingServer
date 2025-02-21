@@ -6,16 +6,16 @@ import serverConfigParser
 from validLogLevels import VALID_LOGS
 import logGenerator
 
-# Mutex for safe logging
-log_writer_mutex = threading.Lock()
-
-# Another mutex for the rate limiting request_log
-rate_limiting_dict_mutex = threading.Lock()
+# Mutex's's
+log_writer_mutex = threading.Lock() # for writing the log file
+rate_limiting_dict_mutex = threading.Lock() # for writing to the rate limiting dictionary
+client_id_list_mutex = threading.Lock() # for writing to the client_id_list
 
 # Dictionary to track message timestamps by IP
-request_log = {}
+rate_limit_log = {}
 
 # Rate limiting options
+# Put these in the config file
 rate_limit_window = 5  # seconds
 max_requests = 2  # Allow 2 messages per window
 
@@ -42,6 +42,8 @@ def setup_server() -> socket.socket:
 
 def log_message(message) -> None:
     """Logs messages to a file using a mutex to prevent race conditions"""
+    print("MESSAGE IN LOG_MESSAGE: ", message)
+    """ THIS IS WHERE YOU NEED TO CHECK IF THE MESSAGE WILL EVEN BE LOGGED! """
     with log_writer_mutex:  # Grab the mutex
         with open("server_log.txt", "a") as log_file:
             log_file.write(message + "\n")
@@ -53,36 +55,55 @@ def check_for_rate_limiting(ip) -> bool:
 
     # Grab the mutex for the rate limiting dictionary
     with rate_limiting_dict_mutex:
-        if ip not in request_log:
-            request_log[ip] = deque() # Create a double ended queue
+        if ip not in rate_limit_log:
+            rate_limit_log[ip] = deque() # Create a double ended queue
 
         # Check for and remove timestamps in the queue for the IP if they are no longer needed
-        while request_log[ip] and request_log[ip][0] < current_time - rate_limit_window:
-            request_log[ip].popleft()
+        while rate_limit_log[ip] and rate_limit_log[ip][0] < current_time - rate_limit_window:
+            rate_limit_log[ip].popleft()
 
         # Otherwise if the number of requests in the log from a specific IP
         # are greater than or equal to the valid MAX number of requests in a timeframe
         # the IP is rate limited
-        if len(request_log[ip]) >= max_requests:
+        if len(rate_limit_log[ip]) >= max_requests:
             return True  # Rate limited
 
         # Append the current ip log with the current time
         # if the IP is not rate limited
-        request_log[ip].append(current_time)
+        rate_limit_log[ip].append(current_time)
     return False
 
+# function to assign an IP address a client ID
+# Client list globals
+client_id_number = 0  # Increments based on number of clients who have connected
+client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
+def assign_client_id(ip_to_check):
+    global client_id_number
+    with client_id_list_mutex:
+        if ip_to_check not in client_id_dictionary:
+            client_id_number += 1
+            client_id_dictionary[ip_to_check] = client_id_number
+            # print(f"Client ID assigned: {client_id_dictionary[ip_to_check]}")
+        return client_id_dictionary[ip_to_check]  # Always return the assigned ID
 
+
+"""
+Function that handles client connections
+"""
 def client_connected(connection, client_address) -> None:
     """A thread that handles clients and their logging"""
     client_ip, client_port = client_address
 
+    # get a client id for this IP
+    client_id = assign_client_id(client_ip)
+
     # Bool to ensure limited logging when a client is rate limited
     stop_log_rate_limited = False
 
-    message = logGenerator.generate_log_message("INFO", client_ip, client_port, "Client connected to server")
+    # Log their connection
+    message = logGenerator.generate_log_message("INFO", client_id, client_ip, client_port, "Client connected to server")
     log_message(message)
-    # Not needed, this is a logger
-    # connection.send(b'Welcome to the Server\n')
+
 
     """The main loop"""
     while True:
@@ -96,7 +117,7 @@ def client_connected(connection, client_address) -> None:
             if check_for_rate_limiting(client_ip):
                 if not stop_log_rate_limited:
                     # log_message(f"Rate limited: {client_ip}:{client_port}")
-                    message = logGenerator.generate_log_message("WARN", client_ip, client_port, "Client is RATE LIMITED")
+                    message = logGenerator.generate_log_message("WARN", client_id, client_ip, client_port, "Client is RATE LIMITED")
                     log_message(message)
                     stop_log_rate_limited = True
                 continue
@@ -105,29 +126,23 @@ def client_connected(connection, client_address) -> None:
 
 
             """
-            YOU NEED TO CHECK IF THE LOG EVEN HAS TO BE PRINTED HERE FIRST
-            BREAK OUT THE CHECK INTO A FUNCTION FROM THE TEST BED
+                CHECK IF THE MESSAGE IS TO BE LOGGED IN THE log_message() FUNCTION!!! NOT HERE!!
             """
-            # Check if the log is to be ignored
-            # if log_is_ignored:
-
-            # else: generate the log message
-
 
             # If the client is not in the rate limiting list
             # create a message and log the message
-            message = logGenerator.generate_log_message(data.decode('utf-8'), client_ip, client_port)
+            message = logGenerator.generate_log_message(data.decode('utf-8'), client_id, client_ip, client_port)
             log_message(message)
 
         except Exception as e:
             # Produce an ERROR regarding the connection of the client
-            message = logGenerator.generate_log_message("FATAL", client_ip, client_port, f"Crtitical socket error - {e}")
+            message = logGenerator.generate_log_message("FATAL", client_id, client_ip, client_port, f"Crtitical socket error - {e}")
             log_message(message)
             break
 
     connection.close()
     # Log when the client has disconnected
-    message = logGenerator.generate_log_message("INFO", client_ip, client_port, f"Client Disconnected from server")
+    message = logGenerator.generate_log_message("INFO", client_id, client_ip, client_port, f"Client Disconnected from server")
     print(f'A client DISCONNECTED: {address[0]}:{address[1]}')
     log_message(message)
 
