@@ -54,7 +54,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     field_variables["requested_log_message"] = requested_log_message # Any messages to be put in the log
 
     # This is used to determine if a default log must be printed due to missing config.ini settings
-    print_default_log = False
+    valid_log_config_missing = False
     print_default_order = False
 
     message_object = {} # Setup the message object (JSON)
@@ -70,7 +70,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
         if not config.has_option("ValidLogs", "VALID_LOGS_LIST"):
             print("Server Error: No VALID_LOGS_LIST option in config.ini!")
             # PRINT A LOG ERROR
-            print_default_log = True # print default log style
+            valid_log_config_missing = True # print default log style
         else:
             valid_log_list = config.get("ValidLogs", "VALID_LOGS_LIST").split(", ")
             print("Valid Logs Gotten: ", valid_log_list)
@@ -78,7 +78,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
         # No ValidLogs section exists, print logs by default
         # PRINT A LOG ERROR
         print("Server Error: No ValidLogs section in config.ini!")
-        print_default_log = True
+        valid_log_config_missing = True
 
     # Check if there is log field order configuration available
     if config.has_section("LogFieldArrangement"):
@@ -96,9 +96,11 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     Start generating the log
     """
     # Is it a valid log type?
-    if not print_default_log:
+    if not valid_log_config_missing:
         print("Formatting exists in config...")
-
+        if log_type not in valid_log_list:
+            field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"
+            field_variables["log_type"] = "ERROR"
         # If a field order exists, construct the log in a specific way
         if field_order:
             for field in field_order:

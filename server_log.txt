@@ -1,8 +1,2 @@
-{"log_type": "INFO", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:08:56", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "TRACE", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:00", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "TRACE", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:00", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "WARN", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:00", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
-{"log_type": "DEBUG", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:05", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "DEBUG", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:06", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "WARN", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:06", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
-{"log_type": "FART", "client_port": 63198, "client_ip_address": "127.0.0.1", "time_stamp": "21/02/2025 16:09:11", "client_id": 1, "requested_log_message": "None"}
+{"log_type": "INFO", "time_stamp": "21/02/2025 16:20:35", "client_port": 63371, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
+{"log_type": "ERROR", "time_stamp": "21/02/2025 16:20:36", "client_port": 63371, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
