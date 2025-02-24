@@ -17,6 +17,7 @@ def get_config_data() -> configparser.ConfigParser | None:
     else:
         return None
 
+# Check for a section/option combo in the config
 def does_section_option_exist(config, section_to_check, option_to_check):
     return config.has_section(section_to_check) and config.has_option(section_to_check, option_to_check)
 

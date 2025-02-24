@@ -45,6 +45,8 @@ def setup_server() -> socket.socket:
         exit(1)
 
     print('Waiting for a Connection...')
+    message = logGenerator.generate_log_message("INFO", "0", server_ip, server_port, "Server started...")
+    log_message(message)
     server_socket.listen(max_clients)
     return server_socket
 
@@ -57,7 +59,7 @@ def check_ignored_log_types(message) -> bool:
     # config.read(config_file_name)
 
     # Storage for logs to be ignored
-    ignored_logs = serverConfigParser.read_ignored_logs()
+    ignored_logs = serverConfigParser.read_server_config_to_list("LogsToIgnore", "IGNORE_LOGS")
 
     # if config.has_section("LogsToIgnore"):
     #     if not config.has_option("LogsToIgnore", "IGNORE_LOGS"):
@@ -145,7 +147,9 @@ def client_connected(connection, client_address) -> None:
     client_ip, client_port = client_address
 
     # get a client id for this IP
-    client_id = assign_client_id(client_ip)
+    # This did send the client_ip, but I wanted to try sending the address to allow 
+    # multiple clients from one IP but different ports
+    client_id = assign_client_id(client_address)
 
     # Bool to ensure limited logging when a client is rate limited
     stop_log_rate_limited = False
