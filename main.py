@@ -40,6 +40,8 @@ def setup_server() -> socket.socket:
     except socket.error as e:
         # This should be written to the log...FYI.
         print(f"Socket binding error: {e}")
+        message = logGenerator.generate_log_message("FATAL", "NONE", "NONE", "NONE", f"Socket Binding Error: {e}")
+        log_message(message)
         exit(1)
 
     print('Waiting for a Connection...')

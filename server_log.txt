@@ -9,3 +9,4 @@
 {"time_stamp": "24/02/2025 07:25:30", "log_type": "WARN", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
 {"time_stamp": "24/02/2025 07:25:30", "log_type": "ERROR", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
 {"time_stamp": "24/02/2025 07:25:30", "log_type": "WARN", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
+{"time_stamp": "24/02/2025 07:28:33", "log_type": "FATAL", "client_ip_address": "NONE", "client_port": "NONE", "client_id": "NONE", "requested_log_message": "Socket Binding Error: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted"}
