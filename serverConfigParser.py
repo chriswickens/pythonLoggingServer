@@ -24,9 +24,14 @@ def read_ignored_logs():
     config = get_config_data()
     if config is not None:
         print("Got config...")
-        
+        if does_section_option_exist(config, "LogsToIgnore", "IGNORE_LOGS"):
+            # return the list of logs to ignore
+            return [log.strip() for log in config.get("LogsToIgnore", "IGNORE_LOGS").split(", ")]
+        else:
+            return []
     else:
-        return True
+        # logs to ignore not found
+        return []
 
 def read_server_settings():
 

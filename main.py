@@ -47,29 +47,29 @@ def setup_server() -> socket.socket:
     return server_socket
 
 def check_ignored_log_types(message) -> bool:
-    # Create the object
-    config = configparser.ConfigParser()
-    config_file_name = "config.ini"
+    # # Create the object
+    # config = configparser.ConfigParser()
+    # config_file_name = "config.ini"
 
-    # Read the config.ini file
-    config.read(config_file_name)
+    # # Read the config.ini file
+    # config.read(config_file_name)
 
     # Storage for logs to be ignored
-    ignored_logs = []
+    ignored_logs = serverConfigParser.read_ignored_logs()
 
-    if config.has_section("LogsToIgnore"):
-        if not config.has_option("LogsToIgnore", "IGNORE_LOGS"):
-            print("Server Error: No IGNORE_LOGS option in config.ini - ALL LOG TYPES WILL BE RECORDED!")
-            return False
-        else:
-            # Get the value and split it correctly
-            ignored_logs = [log.strip() for log in config.get("LogsToIgnore", "IGNORE_LOGS").split(", ")]
-            print("IGNORE_LOGS gotten:", ignored_logs)
-    else:
-        print("Server Error: No LogsToIgnore SECTION in config.ini - ALL LOG TYPES WILL BE RECORDED!")
-        return False
+    # if config.has_section("LogsToIgnore"):
+    #     if not config.has_option("LogsToIgnore", "IGNORE_LOGS"):
+    #         print("Server Error: No IGNORE_LOGS option in config.ini - ALL LOG TYPES WILL BE RECORDED!")
+    #         return False
+    #     else:
+    #         # Get the value and split it correctly
+    #         ignored_logs = [log.strip() for log in config.get("LogsToIgnore", "IGNORE_LOGS").split(", ")]
+    #         print("IGNORE_LOGS gotten:", ignored_logs)
+    # else:
+    #     print("Server Error: No LogsToIgnore SECTION in config.ini - ALL LOG TYPES WILL BE RECORDED!")
+    #     return False
     
-    print("check_ignored_log_types(): It got here, the list exists! Use it!")
+    # print("check_ignored_log_types(): It got here, the list exists! Use it!")
 
     # Load the message as a JSON object
     message_object = json.loads(message)
