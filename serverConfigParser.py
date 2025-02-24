@@ -1,30 +1,79 @@
+from asyncio.windows_events import NULL
 import configparser
+from genericpath import exists
 
+config_file_name = "config.ini"
 
-def read_config():
-    # Create a ConfigParser object
-    config = configparser.ConfigParser()
+# Read config data from the config file
+def get_config_data() -> configparser.ConfigParser | None:
+    
+    # Get the config data to use
+    if exists(config_file_name):
+        print("Config file found...")
+        config = configparser.ConfigParser()
+        # Read the configuration file
+        config.read(config_file_name)
+        return config
+    else:
+        return None
 
-    # Read the configuration file
-    config.read('config.ini')
+def does_section_option_exist(config, section_to_check, option_to_check):
+    return config.has_section(section_to_check) and config.has_option(section_to_check, option_to_check)
 
-    # Access values from the configuration file
-    server_ip = config.get('ServerSettings', 'ip_address')
-    server_port = config.get('ServerSettings', 'port')
-    max_clients = config.get('ServerSettings', 'max_clients')
+def read_ignored_logs():
+    config = get_config_data()
+    if config is not None:
+        print("Got config...")
+        
+    else:
+        return True
 
-    # Return a dictionary with the retrieved values
-    config_values = {
-        'server_ip': server_ip,
-        'server_port': server_port,
-        'max_clients': max_clients
-    }
+def read_server_settings():
 
-    return config_values
+        config = get_config_data()
+        if config is not None:
 
+            print("Config Sections:", config.sections())
+
+            # Check for IP address in config
+            if does_section_option_exist(config, "ServerSettings", "ip_address"):
+                server_ip = config.get('ServerSettings', 'ip_address')
+            else:
+                print("Server Error: Unable to find ip address setting, default 127.0.0.1 will be used!")
+                server_ip = "127.0.0.1"
+
+            # Check for port in config
+            if does_section_option_exist(config, "ServerSettings", "port"):
+                server_port = config.get('ServerSettings', 'port')
+            else:
+                print("Server Error: Unable to find port setting, default 1233 will be used!")
+                server_port = "1233"
+            
+            # check for port
+            if does_section_option_exist(config, "ServerSettings", "max_clients"):
+                max_clients = config.get('ServerSettings', 'max_clients')
+            else:
+                print("Server Error: Unable to find max client setting, default 5 will be used!")
+                max_clients = "5"        
+
+        else:
+            print("No config file found, using defaults...")
+            server_ip = "127.0.0.1"
+            server_port = "1233"
+            max_clients = "5"
+
+        # Return a dictionary with the retrieved values
+        config_values = {
+            'server_ip': server_ip,
+            'server_port': server_port,
+            'max_clients': max_clients
+        }
+
+        print(f"Server Settings: {config_values}")
+        return config_values
 
 if __name__ == "__main__":
     # Call the function to read the configuration file
-    config_data = read_config()
+    config_data = read_server_settings()
     print(f"The server IP address is: {config_data['server_ip']}")
     print(f"The server port is: {config_data['server_port']}")

@@ -4,6 +4,7 @@ import socket
 import threading
 import time
 from collections import deque
+from typing import Any
 import serverConfigParser
 from validLogLevels import VALID_LOGS
 import logGenerator
@@ -23,7 +24,11 @@ max_requests = 2  # Allow 2 messages per window
 
 def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
-    config_data = serverConfigParser.read_config()
+
+    # Get config data
+    config_data = serverConfigParser.read_server_settings()
+
+    # Assign server settings
     server_ip = config_data['server_ip']
     server_port = int(config_data['server_port'])
     max_clients = int(config_data['max_clients'])
@@ -41,7 +46,7 @@ def setup_server() -> socket.socket:
     server_socket.listen(max_clients)
     return server_socket
 
-def check_ignored_log_types(message):
+def check_ignored_log_types(message) -> bool:
     # Create the object
     config = configparser.ConfigParser()
     config_file_name = "config.ini"
@@ -120,7 +125,7 @@ def check_for_rate_limiting(ip) -> bool:
 # Client list globals
 client_id_number = 0  # Increments based on number of clients who have connected
 client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
-def assign_client_id(ip_to_check):
+def assign_client_id(ip_to_check) -> Any:
     global client_id_number
     with client_id_list_mutex:
         if ip_to_check not in client_id_dictionary:

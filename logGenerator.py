@@ -51,13 +51,13 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
 
     # Store ANY variables used in a dictionary with a string name as a key to use
     # when generating the json string
-    field_variables = {}
-    field_variables["time_stamp"] = time_stamp.strftime("%d/%m/%Y %H:%M:%S")
-    field_variables["log_type"] = log_type # the type of log to be generated
-    field_variables["client_ip_address"] = client_ip_address
-    field_variables["client_port"] = client_port
-    field_variables["client_id"] = client_id # Generated in main.py when a client connects
-    field_variables["requested_log_message"] = requested_log_message # Any messages to be put in the log
+    log_field_variables = {}
+    log_field_variables["time_stamp"] = time_stamp.strftime("%d/%m/%Y %H:%M:%S")
+    log_field_variables["log_type"] = log_type # the type of log to be generated
+    log_field_variables["client_ip_address"] = client_ip_address
+    log_field_variables["client_port"] = client_port
+    log_field_variables["client_id"] = client_id # Generated in main.py when a client connects
+    log_field_variables["requested_log_message"] = requested_log_message # Any messages to be put in the log
 
     # This is used to determine if a default log must be printed due to missing config.ini settings
     valid_log_config_missing = False
@@ -108,22 +108,22 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
         # If the log_type is not in the valid_log_list from the config
         # generate a requested_log_message saying so
         if log_type not in valid_log_list:
-            field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"
-            field_variables["log_type"] = "ERROR"
+            log_field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"
+            log_field_variables["log_type"] = "ERROR"
 
         # If a field order exists, construct the log in a specific way
         if field_order:
             for field in field_order:
-                if field in field_variables:
-                    print(f"Field: {field}, Value: {field_variables[field]}")
-                    message_object[field] = field_variables[field]
+                if field in log_field_variables:
+                    print(f"Field: {field}, Value: {log_field_variables[field]}")
+                    message_object[field] = log_field_variables[field]
                 else:
                     print(f"Warning: Field '{field}' in FIELD_ORDER is not found in field_variables.")
         
         # Otherwise, construct a default log style (all fields are printed!)
         else:
             print("Constructing default log message...")
-            message_object.update(field_variables)
+            message_object.update(log_field_variables)
 
     # Print final JSON output
     print("DUMP:", json.dumps(message_object, default=str))
