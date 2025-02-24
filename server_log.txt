@@ -1,24 +1,11 @@
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:34:50", "client_port": 63509, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "FATAL", "time_stamp": "21/02/2025 16:34:53", "client_port": 63509, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:39:31", "client_port": 63552, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:44:26", "client_port": 63579, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "FATAL", "time_stamp": "21/02/2025 16:44:27", "client_port": 63579, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "FATAL", "time_stamp": "21/02/2025 16:44:29", "client_port": 63579, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Crtitical socket error - [WinError 10054] An existing connection was forcibly closed by the remote host"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:44:29", "client_port": 63579, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client Disconnected from server"}
-{"log_type": "FATAL", "time_stamp": "21/02/2025 16:45:17", "client_port": 63597, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:45:56", "client_port": 63613, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:46:04", "client_port": 63613, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client Disconnected from server"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:46:35", "client_port": 63631, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "INFO", "time_stamp": "21/02/2025 16:46:39", "client_port": 63631, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "WARN", "time_stamp": "21/02/2025 16:46:40", "client_port": 63631, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
-{"log_type": "ERROR", "time_stamp": "21/02/2025 16:46:56", "client_port": 63631, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: ffa"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 07:01:09", "client_port": 59170, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "TRACE", "time_stamp": "24/02/2025 07:01:37", "client_port": 59170, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "WARN", "time_stamp": "24/02/2025 07:01:40", "client_port": 59170, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 07:01:42", "client_port": 59170, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client Disconnected from server"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 07:04:49", "client_port": 59215, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "FATAL", "time_stamp": "24/02/2025 07:04:53", "client_port": 59215, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "DEBUG", "time_stamp": "24/02/2025 07:04:55", "client_port": 59215, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "WARN", "time_stamp": "24/02/2025 07:04:56", "client_port": 59215, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
-{"log_type": "TRACE", "time_stamp": "24/02/2025 07:04:58", "client_port": 59215, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "WARN", "time_stamp": "24/02/2025 07:04:59", "client_port": 59215, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
+{"time_stamp": "24/02/2025 07:25:03", "log_type": "INFO", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Client connected to server"}
+{"time_stamp": "24/02/2025 07:25:06", "log_type": "TRACE", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "24/02/2025 07:25:10", "log_type": "DEBUG", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "24/02/2025 07:25:13", "log_type": "INFO", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "24/02/2025 07:25:18", "log_type": "WARN", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "24/02/2025 07:25:22", "log_type": "ERROR", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "24/02/2025 07:25:25", "log_type": "FATAL", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "24/02/2025 07:25:28", "log_type": "ERROR", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"time_stamp": "24/02/2025 07:25:30", "log_type": "WARN", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
+{"time_stamp": "24/02/2025 07:25:30", "log_type": "ERROR", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"time_stamp": "24/02/2025 07:25:30", "log_type": "WARN", "client_ip_address": "127.0.0.1", "client_port": 59461, "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}

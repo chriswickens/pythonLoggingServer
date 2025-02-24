@@ -1,6 +1,7 @@
 import configparser
 import re
 import json
+import serverConfigParser
 from validLogLevels import VALID_LOGS
 from datetime import datetime
 
@@ -35,13 +36,15 @@ def assign_client_id(ip_to_check):
 CHANGES: THIS MUST TAKE IN THE CLIENT_ID AS WELL SINCE IT NEEDS TO BE ASSIGNED BEFORE GETTING HERE
 """
 def generate_log_message(log_type, client_id, client_ip_address, client_port, requested_log_message = "None") -> str:
-    # Create the object
-    config = configparser.ConfigParser()
-    # config.optionxform = str # force configParser to respect case sensitivity 
+    # # Create the object
+    # config = configparser.ConfigParser()
+    # # config.optionxform = str # force configParser to respect case sensitivity 
 
-    config_file_name = "config.ini"
-    # Read the config.ini file
-    config.read(config_file_name)
+    # config_file_name = "config.ini"
+    # # Read the config.ini file
+    # config.read(config_file_name)
+
+    config = serverConfigParser.get_config_data()
 
     #TEST
     sections = config.sections()
@@ -66,64 +69,77 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     message_object = {} # Setup the message object (JSON)
 
     # Variables to store config file information to use later
-    valid_log_list = []
-    field_order = []
+    # valid_log_list = []
+    valid_log_list = serverConfigParser.read_server_config_to_list("ValidLogs", "VALID_LOG_LIST")
+    
+    # If there was no valid log list, use a standard default
+    if not valid_log_list:
+        valid_log_list = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
 
 
-    # Check if ValidLogs section exists
-    if config.has_section("ValidLogs"):
-        # Check if VALID_LOGS option in ValidLogs section exists
-        if not config.has_option("ValidLogs", "VALID_LOGS_LIST"):
-            print("Server Error: No VALID_LOGS_LIST option in config.ini!")
-            # PRINT A LOG ERROR
-            valid_log_config_missing = True # print default log style
-        else:
-            valid_log_list = config.get("ValidLogs", "VALID_LOGS_LIST").split(", ")
-            print("Valid Logs Gotten: ", valid_log_list)
-    else:
-        # No ValidLogs section exists, print logs by default
-        # PRINT A LOG ERROR
-        print("Server Error: No ValidLogs section in config.ini!")
-        valid_log_config_missing = True
+    field_order = serverConfigParser.read_server_config_to_list("LogFieldArrangement", "FIELD_ORDER")
 
-    # Check if there is log field order configuration available
-    if config.has_section("LogFieldArrangement"):
-        if not config.has_option("LogFieldArrangement", "FIELD_ORDER"):
-            # PRINT A LOG ERROR
-            print("Server Error: No FIELD_ORDER option in config.ini! Default order will be used...")
-        else:
-            field_order = config.get("LogFieldArrangement", "FIELD_ORDER").split(", ")
-            print("Valid FIELD_ORDER gotten: ", field_order)
-    else:
-        # PRINT A LOG ERROR
-        print("Server Error: No LogFieldArrangement section in config.ini! Default order will be used...")
+
+    """
+    RE-CODING
+    """
+    # Check if ValidLogs and VALID_LOG_LIST exists
+    
+
+    # # Check if ValidLogs section exists
+    # if config.has_section("ValidLogs"):
+    #     # Check if VALID_LOGS option in ValidLogs section exists
+    #     if not config.has_option("ValidLogs", "VALID_LOGS_LIST"):
+    #         print("Server Error: No VALID_LOGS_LIST option in config.ini!")
+    #         # PRINT A LOG ERROR
+    #         valid_log_config_missing = True # print default log style
+    #     else:
+    #         valid_log_list = config.get("ValidLogs", "VALID_LOGS_LIST").split(", ")
+    #         print("Valid Logs Gotten: ", valid_log_list)
+    # else:
+    #     # No ValidLogs section exists, print logs by default
+    #     # PRINT A LOG ERROR
+    #     print("Server Error: No ValidLogs section in config.ini!")
+    #     valid_log_config_missing = True
+
+    # # Check if there is log field order configuration available
+    # if config.has_section("LogFieldArrangement"):
+    #     if not config.has_option("LogFieldArrangement", "FIELD_ORDER"):
+    #         # PRINT A LOG ERROR
+    #         print("Server Error: No FIELD_ORDER option in config.ini! Default order will be used...")
+    #     else:
+    #         field_order = config.get("LogFieldArrangement", "FIELD_ORDER").split(", ")
+    #         print("Valid FIELD_ORDER gotten: ", field_order)
+    # else:
+    #     # PRINT A LOG ERROR
+    #     print("Server Error: No LogFieldArrangement section in config.ini! Default order will be used...")
 
     """
     Start generating the log
     """
-    # Is it a valid log type?
-    if not valid_log_config_missing:
-        print("Formatting exists in config...")
+    # # Is it a valid log type?
+    # if not valid_log_config_missing:
+    #     print("Formatting exists in config...")
 
-        # If the log_type is not in the valid_log_list from the config
-        # generate a requested_log_message saying so
-        if log_type not in valid_log_list:
-            log_field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"
-            log_field_variables["log_type"] = "ERROR"
+    # If the log_type is not in the valid_log_list from the config
+    # generate a requested_log_message saying so
+    if log_type not in valid_log_list:
+        log_field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"
+        log_field_variables["log_type"] = "ERROR"
 
-        # If a field order exists, construct the log in a specific way
-        if field_order:
-            for field in field_order:
-                if field in log_field_variables:
-                    print(f"Field: {field}, Value: {log_field_variables[field]}")
-                    message_object[field] = log_field_variables[field]
-                else:
-                    print(f"Warning: Field '{field}' in FIELD_ORDER is not found in field_variables.")
-        
-        # Otherwise, construct a default log style (all fields are printed!)
-        else:
-            print("Constructing default log message...")
-            message_object.update(log_field_variables)
+    # If a field order exists, construct the log in a specific way
+    if field_order:
+        for field in field_order:
+            if field in log_field_variables:
+                print(f"Field: {field}, Value: {log_field_variables[field]}")
+                message_object[field] = log_field_variables[field]
+            else:
+                print(f"Warning: Field '{field}' in FIELD_ORDER is not found in field_variables.")
+    
+    # Otherwise, construct a default log style (all fields are printed!)
+    else:
+        print("Constructing default log message...")
+        message_object.update(log_field_variables)
 
     # Print final JSON output
     print("DUMP:", json.dumps(message_object, default=str))

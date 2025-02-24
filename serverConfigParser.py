@@ -33,6 +33,20 @@ def read_ignored_logs():
         # logs to ignore not found
         return []
 
+def read_server_config_to_list(section_to_read, option_to_read):
+        config = get_config_data()
+        if config is not None:
+            print("READ SERVER CONFIG TO LIST: Got config...")
+            if does_section_option_exist(config, section_to_read, option_to_read):
+                # return the list of logs to ignore
+                return [log.strip() for log in config.get(section_to_read, option_to_read).split(", ")]
+            else:
+                return []
+        else:
+            # logs to ignore not found
+            return []
+
+
 def read_server_settings():
 
         config = get_config_data()
