@@ -26,15 +26,14 @@ config_logs_to_ignore_section = "LogsToIgnore"
 config_logs_to_ignore_option = "IGNORE_LOGS"
 
 # Rate limiting Settings
-config_logs_rate_limit_section = "RateLimiting"
-config_logs_rate_limit_window_option = "rate_limit_window"
-config_logs_rate_limit_max_requests_option = "max_requests"
+config_rate_limit_section = "RateLimiting"
+config_rate_limit_window_option = "rate_limit_window"
+config_rate_limit_max_requests_option = "max_requests"
 
 # Read config data from the config file
 def get_config_data() -> configparser.ConfigParser | None:
     # Get the config data to use
     if exists(config_file_name):
-        print("Config file found...")
         # Interpolation is set to None for reading time stamp formats from config.ini file
         config = configparser.ConfigParser(interpolation=None)
         # Read the configuration file
@@ -73,7 +72,7 @@ def read_server_socket_settings():
     config = get_config_data()
     if config is not None:
 
-        print("Config Sections:", config.sections())
+        # print("Config Sections:", config.sections())
 
         # Check for IP address in config
         if does_section_option_exist(config, config_server_settings_section, config_server_settings_option_ip):
@@ -109,7 +108,7 @@ def read_server_socket_settings():
         "max_clients": max_clients
     }
 
-    print(f"Server Settings: {config_values}")
+    # print(f"Server Settings: {config_values}")
     return config_values
 
 # if __name__ == "__main__":

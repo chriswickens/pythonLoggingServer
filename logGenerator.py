@@ -55,7 +55,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     if field_order:
         for field in field_order:
             if field in log_field_variables:
-                print(f"Field: {field}, Value: {log_field_variables[field]}")
+                # print(f"Field: {field}, Value: {log_field_variables[field]}")
                 message_object[field] = log_field_variables[field]
             else:
                 print(f"Warning: Field '{field}' in FIELD_ORDER is not found in field_variables.")
@@ -66,6 +66,6 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
         message_object.update(log_field_variables)
 
     # Print final JSON output
-    print("DUMP:", json.dumps(message_object, default=str))
+    # print("DUMP:", json.dumps(message_object, default=str))
 
     return json.dumps(message_object)

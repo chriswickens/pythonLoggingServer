@@ -22,3 +22,7 @@
 {"time_stamp": "25/02/2025 06:33:07", "log_type": "FATAL", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "None"}
 {"time_stamp": "25/02/2025 06:33:14", "log_type": "FATAL", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "Crtitical socket error - [WinError 10054] An existing connection was forcibly closed by the remote host"}
 {"time_stamp": "25/02/2025 06:33:14", "log_type": "INFO", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "Client Disconnected from server"}
+{"log_type": "INFO", "time_stamp": "25/02/2025 07:10:33", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 07:11:04", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 07:12:15", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 07:13:16", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}

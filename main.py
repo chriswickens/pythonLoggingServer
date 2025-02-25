@@ -55,12 +55,12 @@ def get_rate_limiting_config():
     global rate_limit_window
     global max_requests
     rate_limit_window = serverConfigParser.read_server_config_to_int(
-        serverConfigParser.config_logs_rate_limit_section, 
-        serverConfigParser.config_logs_rate_limit_window_option)
+        serverConfigParser.config_rate_limit_section, 
+        serverConfigParser.config_rate_limit_window_option)
     
     max_requests = serverConfigParser.read_server_config_to_int(
-        serverConfigParser.config_logs_rate_limit_section, 
-        serverConfigParser.config_logs_rate_limit_max_requests_option)
+        serverConfigParser.config_rate_limit_section, 
+        serverConfigParser.config_rate_limit_max_requests_option)
 
     # If None was returned (no valid value)
     if rate_limit_window == None:
@@ -87,7 +87,6 @@ def setup_server() -> socket.socket:
     # Setup rate limiting
     get_rate_limiting_config()
 
-    print(f"Rate: {rate_limit_window} : Max : {max_requests}")
     # Get config data
     config_data = serverConfigParser.read_server_socket_settings()
 
@@ -146,7 +145,6 @@ message (str): The log message to be written to the file.
 """
 def log_message(message) -> None:
     """Logs messages to a file using a mutex to prevent race conditions"""
-    # print("MESSAGE IN LOG_MESSAGE: ", message)
     """ THIS IS WHERE YOU NEED TO CHECK IF THE MESSAGE WILL EVEN BE LOGGED! """
     # Check if log is to be ignored
     ignored_message = is_log_type_ignored(message)
@@ -154,8 +152,8 @@ def log_message(message) -> None:
         with log_writer_mutex:  # Grab the mutex
             with open("server_log.txt", "a") as log_file:
                 log_file.write(message + "\n")
-    else: # Dont need this output really...
-        print("Message not printed, due to ignoring it!")
+    # else: # Dont need this output really...
+    #     print("Message not printed, due to ignoring it!")
 
 """
 check_for_rate_limiting(ip):
@@ -215,7 +213,6 @@ def assign_client_id(client_connection_info) -> Any:
         if client_connection_info not in client_id_dictionary:
             client_id_number += 1
             client_id_dictionary[client_connection_info] = client_id_number
-            # print(f"Client ID assigned: {client_id_dictionary[ip_to_check]}")
         return client_id_dictionary[client_connection_info]  # Always return the assigned ID
 
 
