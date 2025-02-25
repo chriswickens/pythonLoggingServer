@@ -23,8 +23,13 @@ config_log_field_arrangement_option = "FIELD_ORDER"
 config_log_field_time_stamp_format_option = "TIME_STAMP_FORMAT"
 
 # # Logs to ignore Settings
-# config_logs_to_ignore_section = "LogsToIgnore"
-# config_logs_to_ignore_option = "IGNORE_LOGS"
+config_logs_to_ignore_section = "LogsToIgnore"
+config_logs_to_ignore_option = "IGNORE_LOGS"
+
+# Rate limiting Settings
+config_logs_rate_limit_section = "RateLimiting"
+config_logs_rate_limit_window_option = "rate_limit_window"
+config_logs_rate_limit_max_requests_option = "max_requests"
 
 # Read config data from the config file
 def get_config_data() -> configparser.ConfigParser | None:
@@ -37,6 +42,7 @@ def get_config_data() -> configparser.ConfigParser | None:
         config.read(config_file_name)
         return config
     else:
+        print("Config file NOT found! Defaults will be used...")
         return None
 
 # Check for a section/option combo in the config
@@ -46,15 +52,13 @@ def does_section_option_exist(config, section_to_check, option_to_check):
 def read_server_config_to_int(section_to_read, option_to_read):
     config = get_config_data()
     if config and does_section_option_exist(config, section_to_read, option_to_read):
-        print("Reading integer data...")
         return config.getint(section_to_read, option_to_read)
-    return 0
+    return None
 
 
 def read_server_config_to_list(section_to_read, option_to_read):
     config = get_config_data()
     if config and does_section_option_exist(config, section_to_read, option_to_read):
-        print("READ SERVER CONFIG TO LIST: Got config...")
         return [log.strip() for log in config.get(section_to_read, option_to_read).split(",")]
     return []
 
@@ -62,7 +66,6 @@ def read_server_config_to_list(section_to_read, option_to_read):
 def read_server_config_to_string(section_to_read, option_to_read):
     config = get_config_data()
     if config and does_section_option_exist(config, section_to_read, option_to_read):
-        print("READ SERVER CONFIG TO STRING: Got config...")
         return config.get(section_to_read, option_to_read)
     return ""
 

@@ -25,9 +25,13 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
 
     time_stamp = datetime.now() # Get the current time for the log to be generated
 
-    time_stamp_format = serverConfigParser.read_server_config_to_string(serverConfigParser.config_log_field_arrangement_section, serverConfigParser.config_log_field_time_stamp_format_option)
+    time_stamp_format = serverConfigParser.read_server_config_to_string(
+        serverConfigParser.config_log_field_arrangement_section, 
+        serverConfigParser.config_log_field_time_stamp_format_option)
+    
     if not time_stamp_format:
         time_stamp_format = default_time_stamp_format
+        
     # Store ANY variables used in a dictionary with a string name as a key to use
     # when generating the json string
     log_field_variables = {}
@@ -42,16 +46,20 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
 
     # Variables to store config file information to use later
     # valid_log_list = []
-    valid_log_list = serverConfigParser.read_server_config_to_list(serverConfigParser.config_valid_log_section, serverConfigParser.config_valid_log_option)
+    valid_log_list = serverConfigParser.read_server_config_to_list(
+        serverConfigParser.config_valid_log_section, 
+        serverConfigParser.config_valid_log_option)
     
     # If there was no valid log list, use a standard default
     if not valid_log_list:
         valid_log_list = default_valid_logs
 
     # Get the order of the fields from the config file
-    field_order = serverConfigParser.read_server_config_to_list(serverConfigParser.config_log_field_arrangement_section, serverConfigParser.config_log_field_arrangement_option)
+    field_order = serverConfigParser.read_server_config_to_list(
+        serverConfigParser.config_log_field_arrangement_section, 
+        serverConfigParser.config_log_field_arrangement_option)
 
-    # If the log_type is not in the valid_log_list from the config
+    # If the log_type is not in the valid_log_list
     # generate a requested_log_message saying so
     if log_type not in valid_log_list:
         log_field_variables["requested_log_message"] = f"Invalid log type requested: {log_type}"

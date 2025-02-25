@@ -12,3 +12,13 @@
 {"log_type": "TRACE", "time_stamp": "25/02/2025 06:15:15", "client_port": 62012, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
 {"log_type": "WARN", "time_stamp": "25/02/2025 06:15:17", "client_port": 62012, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
 {"log_type": "ERROR", "time_stamp": "25/02/2025 06:15:22", "client_port": 62012, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"log_type": "INFO", "time_stamp": "25/02/2025 06:21:49", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 06:21:59", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 06:22:06", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 06:27:50", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"time_stamp": "25/02/2025 06:32:52", "log_type": "INFO", "client_ip_address": "127.0.0.1", "client_port": 1233, "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"time_stamp": "25/02/2025 06:32:58", "log_type": "INFO", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "Client connected to server"}
+{"time_stamp": "25/02/2025 06:33:00", "log_type": "ERROR", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"time_stamp": "25/02/2025 06:33:07", "log_type": "FATAL", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "None"}
+{"time_stamp": "25/02/2025 06:33:14", "log_type": "FATAL", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "Crtitical socket error - [WinError 10054] An existing connection was forcibly closed by the remote host"}
+{"time_stamp": "25/02/2025 06:33:14", "log_type": "INFO", "client_ip_address": "127.0.0.1", "client_port": 62214, "client_id": 1, "requested_log_message": "Client Disconnected from server"}

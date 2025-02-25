@@ -29,25 +29,37 @@ client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associate
 
 def get_ignored_logs_config():
     global ignored_logs
-    ignored_logs = serverConfigParser.read_server_config_to_list("LogsToIgnore", "IGNORE_LOGS")
+    ignored_logs = serverConfigParser.read_server_config_to_list(
+        serverConfigParser.config_logs_to_ignore_section, 
+        serverConfigParser.config_logs_to_ignore_option)
 
 def get_rate_limiting_config():
     global rate_limit_window
     global max_requests
-    rate_limit_window = serverConfigParser.read_server_config_to_int("RateLimiting", "rate_limit_window")
-    max_requests = serverConfigParser.read_server_config_to_int("RateLimiting", "max_requests")
+    rate_limit_window = serverConfigParser.read_server_config_to_int(
+        serverConfigParser.config_logs_rate_limit_section, 
+        serverConfigParser.config_logs_rate_limit_window_option)
+    
+    max_requests = serverConfigParser.read_server_config_to_int(
+        serverConfigParser.config_logs_rate_limit_section, 
+        serverConfigParser.config_logs_rate_limit_max_requests_option)
 
-
+    # If None was returned (no valid value)
+    if rate_limit_window == None:
+        rate_limit_window = 5
+    if max_requests == None:
+        max_requests = 2
 
 def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
     
     # Setup the ignored logs from config
     get_ignored_logs_config()
-    get_rate_limiting_config()
-    print(f"RATE : {rate_limit_window}")
-    print(f"Max Req : {max_requests}")
 
+    # Setup rate limiting
+    get_rate_limiting_config()
+
+    print(f"Rate: {rate_limit_window} : Max : {max_requests}")
     # Get config data
     config_data = serverConfigParser.read_server_socket_settings()
 
@@ -77,15 +89,11 @@ def is_log_type_ignored(message) -> bool:
     # Load the message as a JSON object
     message_object = json.loads(message)
     log_type = message_object.get("log_type", "")
-    
-    # print(f"CHECK IGNORE DEBUG: log_type='{log_type}', ignored_logs={ignored_logs}")
 
     # Check if log_type should be ignored
     if log_type in ignored_logs:
-        # print("IGNORE THE LOG!")
         return True
     else:
-        # print("PRINT THE LOG!!")
         return False
 
 def log_message(message) -> None:
