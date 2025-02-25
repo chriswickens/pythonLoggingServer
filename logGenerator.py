@@ -1,3 +1,20 @@
+"""
+FILE : logGenerator.py
+PROJECT : SENG2040 Assignment 3
+Programmers : Chris Wickens, Melissa Reyes
+First Version : Feb/17/2025
+Description : Contains the logic to generate serialized JSON strings to be written to a log file.
+Intended to be used with serverMain.py and serverConfigParser.py
+
+Contains ONE function : generate_log_message()
+
+Uses config.ini to control:
+style of logs (field placement)
+valid log types
+ignored log types
+time stamp format
+"""
+
 import json
 import serverConfigParser
 from datetime import datetime
@@ -6,10 +23,20 @@ from datetime import datetime
 default_valid_logs = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
 default_time_stamp_format = "%d/%m/%Y %H:%M:%S"
 
+"""
+generate_log_message(log_type, client_id, client_ip_address, client_port, requested_log_message = "None"):
+Generates a log message, displays various details based on the configuration file field order details.
+requested_log_message is used when the client sends an unknown log type, it can also be expanded later
+to include a specific message from a client.
+
+Returns:
+A serialized JSON object as a string that represents the intended log message to be saved to the log file
+"""
 def generate_log_message(log_type, client_id, client_ip_address, client_port, requested_log_message = "None") -> str:
 
     time_stamp = datetime.now() # Get the current time for the log to be generated
 
+    # Try to read the timestamp config
     time_stamp_format = serverConfigParser.read_server_config_to_string(
         serverConfigParser.config_log_field_arrangement_section, 
         serverConfigParser.config_log_field_time_stamp_format_option)
@@ -62,10 +89,11 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     
     # Otherwise, construct a default log style (all fields are printed!)
     else:
-        print("Constructing default log message...")
+        # print("Constructing default log message...")
         message_object.update(log_field_variables)
 
     # Print final JSON output
     # print("DUMP:", json.dumps(message_object, default=str))
 
+    # Return the constructed message to be logged
     return json.dumps(message_object)

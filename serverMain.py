@@ -1,3 +1,25 @@
+"""
+FILE : serverMain.py
+PROJECT : SENG2040 Assignment 3
+Programmers : Chris Wickens, Melissa Reyes
+First Version : Feb/17/2025
+Description : A simple logging server that allows a client to connect
+and print out specific types of logs. It uses a config.ini file to control most
+of its configuration options.
+Intended to be used with logGenerator.py and serverConfigParser.py
+
+Contains the following functions:
+get_ignored_logs_config()
+get_rate_limiting_config()
+setup_server()
+is_log_type_ignored(message)
+log_message(message)
+check_for_rate_limiting(ip)
+assign_client_id(client_connection_info)
+client_connected(connection, client_address)
+
+"""
+
 import json
 import socket
 import threading
