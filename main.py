@@ -105,8 +105,9 @@ def setup_server() -> socket.socket:
         message = logGenerator.generate_log_message("FATAL", "NONE", "NONE", "NONE", f"Socket Binding Error: {e}")
         log_message(message)
         exit(1)
-
-    print('Server started!\nWaiting for a Connection...')
+    print("=====================================================")
+    print(f'Server Details:\nServer IP {server_ip}\nServer Port: {server_port}\nServer started!\nWaiting for a Connection...')
+    print("=====================================================")
     message = logGenerator.generate_log_message("INFO", "SERVER", server_ip, server_port, "Server started...")
     log_message(message)
     server_socket.listen(max_clients)
