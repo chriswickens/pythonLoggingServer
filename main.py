@@ -1,4 +1,3 @@
-import configparser
 import json
 import socket
 import threading
@@ -6,7 +5,6 @@ import time
 from collections import deque
 from typing import Any
 import serverConfigParser
-from validLogLevels import VALID_LOGS
 import logGenerator
 
 # Mutex's's
@@ -19,8 +17,12 @@ rate_limit_log = {}
 
 # Rate limiting options
 # Put these in the config file
-rate_limit_window = 5  # seconds
-max_requests = 2  # Allow 2 messages per window
+rate_limit_window = 5  # X seconds
+max_requests = 2  # Allow X messages per window
+
+# Client tracking
+client_id_number = 0  # Increments based on number of clients who have connected
+client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
 
 def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
@@ -44,13 +46,13 @@ def setup_server() -> socket.socket:
         log_message(message)
         exit(1)
 
-    print('Waiting for a Connection...')
-    message = logGenerator.generate_log_message("INFO", "0", server_ip, server_port, "Server started...")
+    print('Server started!\nWaiting for a Connection...')
+    message = logGenerator.generate_log_message("INFO", "SERVER", server_ip, server_port, "Server started...")
     log_message(message)
     server_socket.listen(max_clients)
     return server_socket
 
-def check_ignored_log_types(message) -> bool:
+def is_log_type_ignored(message) -> bool:
     # # Create the object
     # config = configparser.ConfigParser()
     # config_file_name = "config.ini"
@@ -79,26 +81,27 @@ def check_ignored_log_types(message) -> bool:
     message_object = json.loads(message)
     log_type = message_object.get("log_type", "")
     
-    print(f"CHECK IGNORE DEBUG: log_type='{log_type}', ignored_logs={ignored_logs}")
+    # print(f"CHECK IGNORE DEBUG: log_type='{log_type}', ignored_logs={ignored_logs}")
 
     # Check if log_type should be ignored
     if log_type in ignored_logs:
-        print("IGNORE THE LOG!")
+        # print("IGNORE THE LOG!")
         return True
     else:
-        print("PRINT THE LOG!!")
+        # print("PRINT THE LOG!!")
         return False
 
 def log_message(message) -> None:
     """Logs messages to a file using a mutex to prevent race conditions"""
-    print("MESSAGE IN LOG_MESSAGE: ", message)
+    # print("MESSAGE IN LOG_MESSAGE: ", message)
     """ THIS IS WHERE YOU NEED TO CHECK IF THE MESSAGE WILL EVEN BE LOGGED! """
-    print_message = check_ignored_log_types(message)
-    if not print_message:
+    # Check if log is to be ignored
+    ignored_message = is_log_type_ignored(message)
+    if not ignored_message:
         with log_writer_mutex:  # Grab the mutex
             with open("server_log.txt", "a") as log_file:
                 log_file.write(message + "\n")
-    else:
+    else: # Dont need this output really...
         print("Message not printed, due to ignoring it!")
 
 def check_for_rate_limiting(ip) -> bool:
@@ -108,11 +111,12 @@ def check_for_rate_limiting(ip) -> bool:
     # Grab the mutex for the rate limiting dictionary
     with rate_limiting_dict_mutex:
         if ip not in rate_limit_log:
-            rate_limit_log[ip] = deque() # Create a double ended queue
+            rate_limit_log[ip] = deque() # Create a double ended queue for each IP
 
-        # Check for and remove timestamps in the queue for the IP if they are no longer needed
+        # Check if the IP exists in the queue
+        # and if the timestamp for its last message is less than the current_time minus the rate_limit_window
         while rate_limit_log[ip] and rate_limit_log[ip][0] < current_time - rate_limit_window:
-            rate_limit_log[ip].popleft()
+            rate_limit_log[ip].popleft() # Pop off the oldest time stamp
 
         # Otherwise if the number of requests in the log from a specific IP
         # are greater than or equal to the valid MAX number of requests in a timeframe
@@ -126,17 +130,14 @@ def check_for_rate_limiting(ip) -> bool:
     return False
 
 # function to assign an IP address a client ID
-# Client list globals
-client_id_number = 0  # Increments based on number of clients who have connected
-client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
-def assign_client_id(ip_to_check) -> Any:
+def assign_client_id(client_connection_info) -> Any:
     global client_id_number
     with client_id_list_mutex:
-        if ip_to_check not in client_id_dictionary:
+        if client_connection_info not in client_id_dictionary:
             client_id_number += 1
-            client_id_dictionary[ip_to_check] = client_id_number
+            client_id_dictionary[client_connection_info] = client_id_number
             # print(f"Client ID assigned: {client_id_dictionary[ip_to_check]}")
-        return client_id_dictionary[ip_to_check]  # Always return the assigned ID
+        return client_id_dictionary[client_connection_info]  # Always return the assigned ID
 
 
 """
@@ -177,11 +178,6 @@ def client_connected(connection, client_address) -> None:
                 continue
             else:
                 stop_log_rate_limited = False
-
-
-            """
-                CHECK IF THE MESSAGE IS TO BE LOGGED IN THE log_message() FUNCTION!!! NOT HERE!!
-            """
 
             # If the client is not in the rate limiting list
             # create a message and log the message

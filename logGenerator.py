@@ -1,5 +1,3 @@
-import configparser
-import re
 import json
 import serverConfigParser
 from validLogLevels import VALID_LOGS
@@ -11,26 +9,38 @@ Add a config option for the time_stamp formatting
 
 """
 
-# Client list globals
-client_id_number = 0  # Increments based on number of clients who have connected
-client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
+# # Client list globals
+# client_id_number = 0  # Increments based on number of clients who have connected
+# client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
 
 
-"""
-THIS NEEDS TO BE PUT IN THE MAIN SERVER CODE SO WHEN A CLIENT CONNECTED IT GENERATES THEIR ID
-then the ID will need to be passed with their IP and port number into the logging function
-to use if necessary...
-Will require another mutex!
-"""
-# function to assign an IP address a client ID
-def assign_client_id(ip_to_check):
-    global client_id_number
-    if ip_to_check not in client_id_dictionary:
-        client_id_number += 1
-        client_id_dictionary[ip_to_check] = client_id_number
-        # print(f"Client ID assigned: {client_id_dictionary[ip_to_check]}")
-    return client_id_dictionary[ip_to_check]  # Always return the assigned ID
+# """
+# THIS NEEDS TO BE PUT IN THE MAIN SERVER CODE SO WHEN A CLIENT CONNECTED IT GENERATES THEIR ID
+# then the ID will need to be passed with their IP and port number into the logging function
+# to use if necessary...
+# Will require another mutex!
+# """
+# # function to assign an IP address a client ID
+# def assign_client_id(ip_to_check):
+#     global client_id_number
+#     if ip_to_check not in client_id_dictionary:
+#         client_id_number += 1
+#         client_id_dictionary[ip_to_check] = client_id_number
+#         # print(f"Client ID assigned: {client_id_dictionary[ip_to_check]}")
+#     return client_id_dictionary[ip_to_check]  # Always return the assigned ID
 
+# Default valid log types
+default_valid_logs = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
+
+# Configuration sections/options expected in config.ini file
+# Valid Log Types
+config_valid_log_section = "ValidLogs"
+config_valid_log_option = "VALID_LOGS_LIST"
+# Log Arrangement Settings
+config_log_field_arrangement_section = "LogFieldArrangement"
+config_log_field_arrangement_option = "FIELD_ORDER"
+config_log_field_time_stamp_format_option = "TIME_STAMP_FORMAT"
+default_time_stamp_format = "%d/%m/%Y %H:%M:%S"
 
 """
 CHANGES: THIS MUST TAKE IN THE CLIENT_ID AS WELL SINCE IT NEEDS TO BE ASSIGNED BEFORE GETTING HERE
@@ -44,6 +54,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     # # Read the config.ini file
     # config.read(config_file_name)
 
+    # NOT NEEDED...?
     config = serverConfigParser.get_config_data()
 
     #TEST
@@ -52,10 +63,13 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
 
     time_stamp = datetime.now() # Get the current time for the log to be generated
 
+    time_stamp_format = serverConfigParser.read_server_config_to_string(config_log_field_arrangement_section, config_log_field_time_stamp_format_option)
+    if not time_stamp_format:
+        time_stamp_format = default_time_stamp_format
     # Store ANY variables used in a dictionary with a string name as a key to use
     # when generating the json string
     log_field_variables = {}
-    log_field_variables["time_stamp"] = time_stamp.strftime("%d/%m/%Y %H:%M:%S")
+    log_field_variables["time_stamp"] = time_stamp.strftime(time_stamp_format)
     log_field_variables["log_type"] = log_type # the type of log to be generated
     log_field_variables["client_ip_address"] = client_ip_address
     log_field_variables["client_port"] = client_port
@@ -70,14 +84,14 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
 
     # Variables to store config file information to use later
     # valid_log_list = []
-    valid_log_list = serverConfigParser.read_server_config_to_list("ValidLogs", "VALID_LOG_LIST")
+    valid_log_list = serverConfigParser.read_server_config_to_list(config_valid_log_section, config_valid_log_option)
     
     # If there was no valid log list, use a standard default
     if not valid_log_list:
-        valid_log_list = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
+        valid_log_list = default_valid_logs
 
 
-    field_order = serverConfigParser.read_server_config_to_list("LogFieldArrangement", "FIELD_ORDER")
+    field_order = serverConfigParser.read_server_config_to_list(config_log_field_arrangement_section, config_log_field_arrangement_option)
 
 
     """

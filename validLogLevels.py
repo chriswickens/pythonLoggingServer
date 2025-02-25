@@ -1,1 +1,0 @@
-VALID_LOGS = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
