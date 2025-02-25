@@ -20,8 +20,8 @@ ignored_logs = []
 
 # Rate limiting options
 # Put these in the config file
-rate_limit_window = 5  # X seconds
-max_requests = 2  # Allow X messages per window
+rate_limit_window = 0  # X seconds
+max_requests = 0  # Allow X messages per window
 
 # Client tracking
 client_id_number = 0  # Increments based on number of clients who have connected
@@ -31,13 +31,25 @@ def get_ignored_logs_config():
     global ignored_logs
     ignored_logs = serverConfigParser.read_server_config_to_list("LogsToIgnore", "IGNORE_LOGS")
 
+def get_rate_limiting_config():
+    global rate_limit_window
+    global max_requests
+    rate_limit_window = serverConfigParser.read_server_config_to_int("RateLimiting", "rate_limit_window")
+    max_requests = serverConfigParser.read_server_config_to_int("RateLimiting", "max_requests")
+
+
+
 def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
     
+    # Setup the ignored logs from config
     get_ignored_logs_config()
+    get_rate_limiting_config()
+    print(f"RATE : {rate_limit_window}")
+    print(f"Max Req : {max_requests}")
 
     # Get config data
-    config_data = serverConfigParser.read_server_settings()
+    config_data = serverConfigParser.read_server_socket_settings()
 
     # Assign server settings
     server_ip = config_data['server_ip']
@@ -62,30 +74,6 @@ def setup_server() -> socket.socket:
     return server_socket
 
 def is_log_type_ignored(message) -> bool:
-    # # Create the object
-    # config = configparser.ConfigParser()
-    # config_file_name = "config.ini"
-
-    # # Read the config.ini file
-    # config.read(config_file_name)
-
-    # Storage for logs to be ignored
-
-
-    # if config.has_section("LogsToIgnore"):
-    #     if not config.has_option("LogsToIgnore", "IGNORE_LOGS"):
-    #         print("Server Error: No IGNORE_LOGS option in config.ini - ALL LOG TYPES WILL BE RECORDED!")
-    #         return False
-    #     else:
-    #         # Get the value and split it correctly
-    #         ignored_logs = [log.strip() for log in config.get("LogsToIgnore", "IGNORE_LOGS").split(", ")]
-    #         print("IGNORE_LOGS gotten:", ignored_logs)
-    # else:
-    #     print("Server Error: No LogsToIgnore SECTION in config.ini - ALL LOG TYPES WILL BE RECORDED!")
-    #     return False
-    
-    # print("check_ignored_log_types(): It got here, the list exists! Use it!")
-
     # Load the message as a JSON object
     message_object = json.loads(message)
     log_type = message_object.get("log_type", "")

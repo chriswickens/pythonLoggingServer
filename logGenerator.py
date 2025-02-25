@@ -9,13 +9,13 @@ default_valid_logs = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
 
 # Configuration sections/options expected in config.ini file
 # Valid Log Types
-config_valid_log_section = "ValidLogs"
-config_valid_log_option = "VALID_LOGS_LIST"
+# config_valid_log_section = "ValidLogs"
+# config_valid_log_option = "VALID_LOGS_LIST"
 
 # Log Arrangement Settings
-config_log_field_arrangement_section = "LogFieldArrangement"
-config_log_field_arrangement_option = "FIELD_ORDER"
-config_log_field_time_stamp_format_option = "TIME_STAMP_FORMAT"
+# config_log_field_arrangement_section = "LogFieldArrangement"
+# config_log_field_arrangement_option = "FIELD_ORDER"
+# config_log_field_time_stamp_format_option = "TIME_STAMP_FORMAT"
 default_time_stamp_format = "%d/%m/%Y %H:%M:%S"
 
 """
@@ -25,7 +25,7 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
 
     time_stamp = datetime.now() # Get the current time for the log to be generated
 
-    time_stamp_format = serverConfigParser.read_server_config_to_string(config_log_field_arrangement_section, config_log_field_time_stamp_format_option)
+    time_stamp_format = serverConfigParser.read_server_config_to_string(serverConfigParser.config_log_field_arrangement_section, serverConfigParser.config_log_field_time_stamp_format_option)
     if not time_stamp_format:
         time_stamp_format = default_time_stamp_format
     # Store ANY variables used in a dictionary with a string name as a key to use
@@ -38,22 +38,18 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
     log_field_variables["client_id"] = client_id # Generated in main.py when a client connects
     log_field_variables["requested_log_message"] = requested_log_message # Any messages to be put in the log
 
-    # This is used to determine if a default log must be printed due to missing config.ini settings
-    valid_log_config_missing = False
-    print_default_order = False
-
     message_object = {} # Setup the message object (JSON)
 
     # Variables to store config file information to use later
     # valid_log_list = []
-    valid_log_list = serverConfigParser.read_server_config_to_list(config_valid_log_section, config_valid_log_option)
+    valid_log_list = serverConfigParser.read_server_config_to_list(serverConfigParser.config_valid_log_section, serverConfigParser.config_valid_log_option)
     
     # If there was no valid log list, use a standard default
     if not valid_log_list:
         valid_log_list = default_valid_logs
 
-
-    field_order = serverConfigParser.read_server_config_to_list(config_log_field_arrangement_section, config_log_field_arrangement_option)
+    # Get the order of the fields from the config file
+    field_order = serverConfigParser.read_server_config_to_list(serverConfigParser.config_log_field_arrangement_section, serverConfigParser.config_log_field_arrangement_option)
 
     # If the log_type is not in the valid_log_list from the config
     # generate a requested_log_message saying so
