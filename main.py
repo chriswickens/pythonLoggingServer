@@ -27,12 +27,30 @@ max_requests = 0  # Allow X messages per window
 client_id_number = 0  # Increments based on number of clients who have connected
 client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
 
+"""
+get_ignored_logs_config():
+Reads the ignored log types from the server configuration and stores them globally.
+
+This function retrieves the list of log types that should be ignored from the configuration file
+and assigns them to the global variable `ignored_logs`.
+"""
 def get_ignored_logs_config():
     global ignored_logs
     ignored_logs = serverConfigParser.read_server_config_to_list(
         serverConfigParser.config_logs_to_ignore_section, 
         serverConfigParser.config_logs_to_ignore_option)
 
+"""
+get_rate_limiting_config():
+Reads the rate limiting settings from the server configuration and stores them globally.
+
+This function retrieves the rate limiting window and the maximum number of requests allowed
+within that window. If no valid values are found, it assigns default values.
+
+Global Variables:
+rate_limit_window (int): The time window for rate limiting (default: 5 seconds).
+max_requests (int): The maximum number of requests allowed within the window (default: 2).
+"""
 def get_rate_limiting_config():
     global rate_limit_window
     global max_requests
@@ -50,6 +68,16 @@ def get_rate_limiting_config():
     if max_requests == None:
         max_requests = 2
 
+"""
+setup_server():
+Initializes and sets up the server socket using configuration data.
+
+This function reads server socket settings, binds the server socket to the specified IP and port,
+and starts listening for incoming connections.
+
+Returns:
+socket.socket: The configured server socket.
+"""
 def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
     
@@ -85,6 +113,16 @@ def setup_server() -> socket.socket:
     server_socket.listen(max_clients)
     return server_socket
 
+"""
+is_log_type_ignored(message):
+Checks whether the log type in the given message should be ignored.
+
+Parameters:
+message (str): A JSON-formatted log message.
+
+Returns:
+bool: True if the log type is in the ignored list, False otherwise.
+"""
 def is_log_type_ignored(message) -> bool:
     # Load the message as a JSON object
     message_object = json.loads(message)
@@ -96,6 +134,16 @@ def is_log_type_ignored(message) -> bool:
     else:
         return False
 
+"""
+log_message(message):
+Logs a message to a file, ensuring thread safety using a mutex.
+
+This function first checks if the message should be ignored. If not, it writes the log to
+a file using a mutex to prevent race conditions.
+
+Parameters:
+message (str): The log message to be written to the file.
+"""
 def log_message(message) -> None:
     """Logs messages to a file using a mutex to prevent race conditions"""
     # print("MESSAGE IN LOG_MESSAGE: ", message)
@@ -109,6 +157,19 @@ def log_message(message) -> None:
     else: # Dont need this output really...
         print("Message not printed, due to ignoring it!")
 
+"""
+check_for_rate_limiting(ip):
+Checks if an IP address is rate limited based on recent request timestamps.
+
+This function keeps track of request timestamps for each IP address and ensures that requests
+exceeding the allowed threshold within the configured time window are blocked.
+
+Parameters:
+ip (str): The IP address of the client.
+
+Returns:
+bool: True if the IP is rate limited, False otherwise.
+"""
 def check_for_rate_limiting(ip) -> bool:
     """Check if the IP address has been rate limited."""
     current_time = time.time()
@@ -134,6 +195,19 @@ def check_for_rate_limiting(ip) -> bool:
         rate_limit_log[ip].append(current_time)
     return False
 
+"""
+assign_client_id(client_connection_info):
+Assigns a unique client ID to a given client connection.
+
+This function checks if the client connection information already has an assigned ID.
+If not, it assigns a new unique ID and stores it in a dictionary.
+
+Parameters:
+client_connection_info (tuple): The client's connection details (IP and port).
+
+Returns:
+Any: The assigned client ID.
+"""
 # function to assign an IP address a client ID
 def assign_client_id(client_connection_info) -> Any:
     global client_id_number
@@ -146,7 +220,15 @@ def assign_client_id(client_connection_info) -> Any:
 
 
 """
-Function that handles client connections
+client_connected(connection, client_address):
+Handles a client connection in a separate thread.
+
+This function manages client communication, checks for rate limiting, and logs messages.
+It continuously listens for incoming data until the client disconnects.
+
+Parameters:
+connection (socket.socket): The socket object representing the client connection.
+client_address (tuple): The client's IP address and port.
 """
 def client_connected(connection, client_address) -> None:
     """A thread that handles clients and their logging"""
@@ -201,7 +283,9 @@ def client_connected(connection, client_address) -> None:
     print(f'A client DISCONNECTED: {address[0]}:{address[1]}')
     log_message(message)
 
-
+"""
+Main Function
+"""
 if __name__ == "__main__":
 
     requested_server_socket = setup_server()

@@ -2,25 +2,10 @@ import json
 import serverConfigParser
 from datetime import datetime
 
-
-
 # Default valid log types
 default_valid_logs = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
-
-# Configuration sections/options expected in config.ini file
-# Valid Log Types
-# config_valid_log_section = "ValidLogs"
-# config_valid_log_option = "VALID_LOGS_LIST"
-
-# Log Arrangement Settings
-# config_log_field_arrangement_section = "LogFieldArrangement"
-# config_log_field_arrangement_option = "FIELD_ORDER"
-# config_log_field_time_stamp_format_option = "TIME_STAMP_FORMAT"
 default_time_stamp_format = "%d/%m/%Y %H:%M:%S"
 
-"""
-CHANGES: THIS MUST TAKE IN THE CLIENT_ID AS WELL SINCE IT NEEDS TO BE ASSIGNED BEFORE GETTING HERE
-"""
 def generate_log_message(log_type, client_id, client_ip_address, client_port, requested_log_message = "None") -> str:
 
     time_stamp = datetime.now() # Get the current time for the log to be generated
@@ -29,9 +14,10 @@ def generate_log_message(log_type, client_id, client_ip_address, client_port, re
         serverConfigParser.config_log_field_arrangement_section, 
         serverConfigParser.config_log_field_time_stamp_format_option)
     
+    # If no time stamp format was found in the config, use the default
     if not time_stamp_format:
         time_stamp_format = default_time_stamp_format
-        
+
     # Store ANY variables used in a dictionary with a string name as a key to use
     # when generating the json string
     log_field_variables = {}

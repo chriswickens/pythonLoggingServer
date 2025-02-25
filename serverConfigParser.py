@@ -12,7 +12,6 @@ config_server_settings_option_ip = "ip_address"
 config_server_settings_option_port = "port"
 config_server_settings_option_max_clients = "max_clients"
 
-# Configuration sections/options expected in config.ini file
 # Valid Log Types
 config_valid_log_section = "ValidLogs"
 config_valid_log_option = "VALID_LOGS_LIST"
@@ -113,15 +112,15 @@ def read_server_socket_settings():
     print(f"Server Settings: {config_values}")
     return config_values
 
-if __name__ == "__main__":
-    # Call the function to read the configuration file
-    # config_data = read_server_socket_settings()
-    # print(f"The server IP address is: {config_data['server_ip']}")
-    # print(f"The server port is: {config_data['server_port']}")
+# if __name__ == "__main__":
+#     # Call the function to read the configuration file
+#     # config_data = read_server_socket_settings()
+#     # print(f"The server IP address is: {config_data['server_ip']}")
+#     # print(f"The server port is: {config_data['server_port']}")
 
-    # time_stamp_test = get_config_data()
-    # dateString = read_server_config_to_string("LogFieldArrangement", "TIME_STAMP_FORMAT")
-    # print(f"{datetime.now().strftime(dateString)}")
+#     # time_stamp_test = get_config_data()
+#     # dateString = read_server_config_to_string("LogFieldArrangement", "TIME_STAMP_FORMAT")
+#     # print(f"{datetime.now().strftime(dateString)}")
 
-    print(read_server_config_to_int("RateLimiting", "rate_limit_window"))
-    print(read_server_config_to_int("RateLimiting", "max_requests"))
+#     print(read_server_config_to_int("RateLimiting", "rate_limit_window"))
+#     print(read_server_config_to_int("RateLimiting", "max_requests"))
