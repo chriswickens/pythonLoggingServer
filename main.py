@@ -15,6 +15,9 @@ client_id_list_mutex = threading.Lock() # for writing to the client_id_list
 # Dictionary to track message timestamps by IP
 rate_limit_log = {}
 
+# List for ignored logs
+ignored_logs = []
+
 # Rate limiting options
 # Put these in the config file
 rate_limit_window = 5  # X seconds
@@ -24,8 +27,14 @@ max_requests = 2  # Allow X messages per window
 client_id_number = 0  # Increments based on number of clients who have connected
 client_id_dictionary = {}  # Dictionary of client IDs and IP addresses associated with them
 
+def get_ignored_logs_config():
+    global ignored_logs
+    ignored_logs = serverConfigParser.read_server_config_to_list("LogsToIgnore", "IGNORE_LOGS")
+
 def setup_server() -> socket.socket:
     """Set up the server socket using config data."""
+    
+    get_ignored_logs_config()
 
     # Get config data
     config_data = serverConfigParser.read_server_settings()
@@ -61,7 +70,7 @@ def is_log_type_ignored(message) -> bool:
     # config.read(config_file_name)
 
     # Storage for logs to be ignored
-    ignored_logs = serverConfigParser.read_server_config_to_list("LogsToIgnore", "IGNORE_LOGS")
+
 
     # if config.has_section("LogsToIgnore"):
     #     if not config.has_option("LogsToIgnore", "IGNORE_LOGS"):

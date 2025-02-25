@@ -1,20 +1,15 @@
-{"log_type": "INFO", "time_stamp": "\"24/02/2025 08:45:15\"", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:46:00", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:46:15", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:46:40", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:48:36", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:48", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:49:02", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:49:23", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:49:28", "client_port": 60632, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "FATAL", "time_stamp": "24/02/2025 08:49:31", "client_port": 60632, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "ERROR", "time_stamp": "24/02/2025 08:49:33", "client_port": 60632, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:49:40", "client_port": 60632, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client Disconnected from server"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:49:57", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:58:17", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "0", "requested_log_message": "Server started..."}
-{"log_type": "INFO", "time_stamp": "24/02/2025 08:58:35", "client_port": 60866, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
-{"log_type": "FATAL", "time_stamp": "24/02/2025 08:58:37", "client_port": 60866, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
-{"log_type": "ERROR", "time_stamp": "24/02/2025 08:58:39", "client_port": 60866, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
-{"log_type": "ERROR", "time_stamp": "24/02/2025 08:58:44", "client_port": 60866, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: FAAAAAART"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 09:00:24", "client_port": 60866, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client Disconnected from server"}
-{"log_type": "INFO", "time_stamp": "24/02/2025 09:17:19", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 05:46:41", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 05:46:54", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
+{"log_type": "TRACE", "time_stamp": "25/02/2025 05:46:58", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
+{"log_type": "ERROR", "time_stamp": "25/02/2025 05:47:01", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"log_type": "ERROR", "time_stamp": "25/02/2025 05:47:04", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"log_type": "WARN", "time_stamp": "25/02/2025 05:47:04", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
+{"log_type": "ERROR", "time_stamp": "25/02/2025 05:47:06", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"log_type": "WARN", "time_stamp": "25/02/2025 05:47:06", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
+{"log_type": "ERROR", "time_stamp": "25/02/2025 05:47:09", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Invalid log type requested: NOBUENO"}
+{"log_type": "WARN", "time_stamp": "25/02/2025 05:47:09", "client_port": 61364, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client is RATE LIMITED"}
+{"log_type": "INFO", "time_stamp": "25/02/2025 05:53:32", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 05:53:45", "client_port": 1233, "client_ip_address": "127.0.0.1", "client_id": "SERVER", "requested_log_message": "Server started..."}
+{"log_type": "INFO", "time_stamp": "25/02/2025 05:53:56", "client_port": 61685, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client connected to server"}
+{"log_type": "WARN", "time_stamp": "25/02/2025 05:54:00", "client_port": 61685, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "None"}
+{"log_type": "INFO", "time_stamp": "25/02/2025 05:54:01", "client_port": 61685, "client_ip_address": "127.0.0.1", "client_id": 1, "requested_log_message": "Client Disconnected from server"}
