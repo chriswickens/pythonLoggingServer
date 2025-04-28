@@ -1,7 +1,7 @@
 """
 FILE : logGenerator.py
 PROJECT : SENG2040 Assignment 3
-Programmers : Chris Wickens, Melissa Reyes
+Programmers : Chris Wickens
 First Version : Feb/17/2025
 Description : Contains the logic to generate serialized JSON strings to be written to a log file.
 Intended to be used with serverMain.py and serverConfigParser.py

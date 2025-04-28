@@ -1,7 +1,7 @@
 """
 FILE : serverMain.py
 PROJECT : SENG2040 Assignment 3
-Programmers : Chris Wickens, Melissa Reyes
+Programmers : Chris Wickens
 First Version : Feb/17/2025
 Description : A simple logging server that allows a client to connect
 and print out specific types of logs. It uses a config.ini file to control most
@@ -41,7 +41,6 @@ rate_limit_log = {}
 ignored_logs = []
 
 # Rate limiting options
-# Put these in the config file
 rate_limit_window = 0  # X seconds
 max_requests = 0  # Allow X messages per window
 

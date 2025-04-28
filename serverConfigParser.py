@@ -1,7 +1,7 @@
 """
 FILE : serverConfigParser.py
 PROJECT : SENG2040 Assignment 3
-Programmers : Chris Wickens, Melissa Reyes
+Programmers : Chris Wickens
 First Version : Feb/17/2025
 Description : Contains the logic to parse configuration details from a config.ini file.
 If no config.ini file is found, sensible defaults are used to setup the server.
