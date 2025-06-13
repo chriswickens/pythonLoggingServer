@@ -9,7 +9,7 @@ The logs are produced using a JSON output that is intended to be ready by any lo
 - **ServerSettings** : The IP/Port and max supported clients
 - **ValidLogs** : The types of logs that it will produce (default will allow a connected client to have logs generated for: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
 - **LogFieldArrangment** : How the arrangement of the log details will be produced
-- **TIME_STAM_FORMAT** : Allows for timestamp formatting in the log entry
+- **TIME_STAMP_FORMAT** : Allows for timestamp formatting in the log entry
 - **LogsToIgnore** : Log types in this section will be ignored and will not be shown in the log file
 - **RateLimiting** : 
   - **rate_limit_window** - The time window to ignore multiple log requests (more than 1 every X seconds will be ignored)
